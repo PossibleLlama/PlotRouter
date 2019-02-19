@@ -1,0 +1,13 @@
+# IntelliJ IDEA
+.idea
+*.iws
+*.iml
+*.ipr
+
+# Java
+*.jar
+*target/
+
+# Javascript
+node_modules/
+
