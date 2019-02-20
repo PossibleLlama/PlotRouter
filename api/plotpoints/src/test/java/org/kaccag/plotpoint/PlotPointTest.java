@@ -136,6 +136,16 @@ public class PlotPointTest {
         Assert.assertNotEquals(plotPoint1.getId(), plotPoint2.getId());
     }
 
+    @Test
+    public void setupTemplateWithNoFields() {
+        plotPoint1 = builder.buildTemplate();
+
+        Assert.assertEquals(0, plotPoint1.getId());
+        Assert.assertEquals(null, plotPoint1.getUser());
+        Assert.assertEquals(null, plotPoint1.getSummary());
+        Assert.assertEquals(null, plotPoint1.getDescription());
+    }
+
     private void setupBaseBuilder() {
         builder
                 .setUser("user")

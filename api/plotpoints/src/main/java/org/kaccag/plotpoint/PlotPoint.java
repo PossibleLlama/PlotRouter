@@ -17,7 +17,11 @@ public class PlotPoint {
 
     private PlotPoint(final String user, final String summary, final String description) {
         String userSummary = user + summary;
-        this.id = userSummary.hashCode();
+        // TODO Change this to a method that can be done anywhere with the user and summary (in GUI)
+        if (user != null && !user.equals("") && summary != null && !summary.equals(""))
+            id = userSummary.hashCode();
+        else
+            id = 0;
         this.user = user;
         this.summary = summary;
         this.description = description;
@@ -43,7 +47,7 @@ public class PlotPoint {
         return description;
     }
 
-    private void setDescription(String description) {
+    private void setDescription(final String description) {
         this.description = description;
     }
 
@@ -57,6 +61,13 @@ public class PlotPoint {
             this.plotPoint = new PlotPoint("", "");
         }
 
+        /**
+         * Usual builder that is expected to be used.
+         * User and Summary are mandatory fields for the plot point.
+         *
+         * @return
+         * @throws IllegalArgumentException
+         */
         public PlotPoint build() throws IllegalArgumentException {
             if (user == null || user.equals(""))
                 throw new IllegalArgumentException("User is a required field for Plot Point");
@@ -72,17 +83,29 @@ public class PlotPoint {
             return builtPlotPoint;
         }
 
-        public Builder setUser(String user) {
+        /**
+         * Build tool used for templates.
+         * Expected to be used as a plot point search based on criteria listed within.
+         * <p>
+         * No mandatory fields.
+         *
+         * @return
+         */
+        PlotPoint buildTemplate() {
+            return new PlotPoint(user, summary, plotPoint.getDescription());
+        }
+
+        public Builder setUser(final String user) {
             this.user = user;
             return this;
         }
 
-        public Builder setSummary(String summary) {
+        public Builder setSummary(final String summary) {
             this.summary = summary;
             return this;
         }
 
-        public Builder setDescription(String description) {
+        public Builder setDescription(final String description) {
             this.plotPoint.setDescription(description);
             return this;
         }
