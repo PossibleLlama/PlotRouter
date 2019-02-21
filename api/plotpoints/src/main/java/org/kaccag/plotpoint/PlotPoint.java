@@ -1,5 +1,7 @@
 package org.kaccag.plotpoint;
 
+import org.springframework.data.annotation.Id;
+
 /**
  * Bean for plot points.
  * Requires user and summary.
@@ -7,6 +9,7 @@ package org.kaccag.plotpoint;
  */
 public class PlotPoint {
 
+    @Id
     private final int id;
 
     private final String user;
@@ -49,6 +52,14 @@ public class PlotPoint {
 
     private void setDescription(final String description) {
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "Plotpoint[id=%s, user=%s, summary=%s, description=%s]",
+                id, user, summary, description
+        );
     }
 
     public static class Builder {
