@@ -43,6 +43,7 @@ public class PlotPointController {
      * @return
      */
     @GetMapping(
+            value = "/id/{id}",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
     public ResponseEntity<PlotPoint> findOne(@PathVariable int id) {
@@ -55,6 +56,7 @@ public class PlotPointController {
     }
 
     @GetMapping(
+            value = "/user/{user}",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
     public ResponseEntity<List<PlotPoint>> findAll(@PathVariable String user) {
