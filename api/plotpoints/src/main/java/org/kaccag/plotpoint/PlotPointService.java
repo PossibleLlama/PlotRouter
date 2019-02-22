@@ -13,8 +13,20 @@ public class PlotPointService {
     }
 
     public PlotPointEntity insert(final PlotPointEntity plotPoint) {
-        // TODO validation of plot point.
+        if (!isPlotPointValid(plotPoint))
+            throw new IllegalArgumentException("Received plot point object is malformed");
         return repo.insert(plotPoint);
     }
 
+    private boolean isPlotPointValid(PlotPointEntity plotPoint) {
+        if (plotPoint.getUser() == null || plotPoint.getUser().equals(""))
+            return false;
+        if (plotPoint.getSummary() == null || plotPoint.getSummary().equals(""))
+            return false;
+        if (plotPoint.getId() == 0)
+            plotPoint.setId();
+        if (plotPoint.getDescription() != null && plotPoint.getDescription().equals(""))
+            plotPoint.setDescription(null);
+        return true;
+    }
 }
