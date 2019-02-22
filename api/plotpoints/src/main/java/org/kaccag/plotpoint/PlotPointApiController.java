@@ -10,11 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController(value = "/api/plotpoint")
-public class PlotPointController {
+public class PlotPointApiController {
     @Autowired
     private PlotPointService service;
 
-    public PlotPointController(final PlotPointService service) {
+    public PlotPointApiController(final PlotPointService service) {
         this.service = service;
     }
 

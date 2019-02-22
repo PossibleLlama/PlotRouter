@@ -9,8 +9,8 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
-public class PlotPointControllerTest {
-    private PlotPointController controller;
+public class PlotPointApiControllerTest {
+    private PlotPointApiController controller;
 
     @Before
     public void setup() {
@@ -21,7 +21,7 @@ public class PlotPointControllerTest {
                 .when(mockRepo.save(plotPoint))
                 .thenReturn(plotPoint);
         PlotPointService service = new PlotPointService(mockRepo);
-        controller = new PlotPointController(service);
+        controller = new PlotPointApiController(service);
     }
 
     @Test
