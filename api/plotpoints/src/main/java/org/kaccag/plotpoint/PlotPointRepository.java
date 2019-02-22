@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Interface that will automatically create basic CRUD methods.
  */
-public interface PlotPointRepository extends MongoRepository<PlotPoint, Integer> {
+public interface PlotPointRepository extends MongoRepository<PlotPointEntity, Integer> {
 
-    List<PlotPoint> findByUser(String user);
+    List<PlotPointEntity> findByUser(String user);
 }

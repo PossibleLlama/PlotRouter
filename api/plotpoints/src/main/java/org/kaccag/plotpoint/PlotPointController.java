@@ -12,30 +12,34 @@ import java.util.List;
 @RestController(value = "/api/plotpoint")
 public class PlotPointController {
     @Autowired
-    private PlotPointRepository repo;
+    private PlotPointService service;
+
+    public PlotPointController(final PlotPointService service) {
+        this.service = service;
+    }
 
     @PostMapping(
-            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<PlotPoint> create(@RequestBody PlotPoint plotPoint) {
-        repo.insert(plotPoint);
+    public ResponseEntity<PlotPointEntity> create(@RequestBody PlotPointEntity plotPoint) {
+        service.insert(plotPoint);
         return new ResponseEntity<>(plotPoint, HttpStatus.CREATED);
     }
 
     @PatchMapping(
-            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<PlotPoint> update(@RequestBody PlotPoint newPlotPoint) {
+    public ResponseEntity<PlotPointEntity> update(@RequestBody PlotPointEntity newPlotPoint) {
         return new ResponseEntity<>(newPlotPoint, HttpStatus.OK);
     }
 
     @DeleteMapping(
-            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<PlotPoint> delete(@RequestBody PlotPoint deletedTemplate) {
+    public ResponseEntity<PlotPointEntity> delete(@RequestBody PlotPointEntity deletedTemplate) {
         return new ResponseEntity<>(deletedTemplate, HttpStatus.OK);
     }
 
@@ -48,22 +52,19 @@ public class PlotPointController {
      */
     @GetMapping(
             value = "/id/{id}",
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
+            produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<PlotPoint> findOne(@PathVariable int id) {
+    public ResponseEntity<PlotPointEntity> findOne(@PathVariable int id) {
         return new ResponseEntity<>(
-                new PlotPoint.Builder()
-                        .setUser("user")
-                        .setSummary("summary")
-                        .build(),
+                new PlotPointEntity("user", "summary"),
                 HttpStatus.OK);
     }
 
     @GetMapping(
             value = "/user/{user}",
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
+            produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<List<PlotPoint>> findAll(@PathVariable String user) {
+    public ResponseEntity<List<PlotPointEntity>> findAll(@PathVariable String user) {
         return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
     }
 }
