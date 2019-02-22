@@ -15,7 +15,8 @@ public class PlotPointService {
     public PlotPointEntity insert(final PlotPointEntity plotPoint) {
         if (!isPlotPointValid(plotPoint))
             throw new IllegalArgumentException("Received plot point object is malformed");
-        return repo.insert(plotPoint);
+        repo.insert(plotPoint);
+        return plotPoint;
     }
 
     private boolean isPlotPointValid(PlotPointEntity plotPoint) {
