@@ -1,4 +1,8 @@
 # PlotRouter
 
 Master build status
-[![Build Status](https://semaphoreci.com/api/v1/possiblellama/plotrouter/branches/master/badge.svg)](https://semaphoreci.com/possiblellama/plotrouter)
+[![Build Status](https://semaphoreci.com/api/v1/possiblellama/plotrouter/branches/master/shields_badge.svg)](https://semaphoreci.com/possiblellama/plotrouter)
+
+Trello board documenting progress
+https://trello.com/b/mEtQHsTR/plot-router
+
