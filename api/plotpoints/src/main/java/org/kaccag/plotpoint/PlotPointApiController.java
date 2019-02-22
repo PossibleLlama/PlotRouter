@@ -22,6 +22,14 @@ public class PlotPointApiController {
         this.service = service;
     }
 
+    @GetMapping(
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<PlotPointHelp> getHelp() {
+        PlotPointHelp helper = new PlotPointHelp();
+        return new ResponseEntity<>(helper, HttpStatus.OK);
+    }
+
     @PostMapping(
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
