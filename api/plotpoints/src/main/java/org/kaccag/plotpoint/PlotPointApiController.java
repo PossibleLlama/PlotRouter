@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Any errors thrown should be directed to the error controller.
+ * TODO create an error controller
+ */
 @RestController(value = "/api/plotpoint")
 public class PlotPointApiController {
     @Autowired
@@ -60,6 +64,13 @@ public class PlotPointApiController {
                 HttpStatus.OK);
     }
 
+    /**
+     * Searching for all plot points that are from a single user.
+     * User may be a token or similar in the future.
+     *
+     * @param user
+     * @return
+     */
     @GetMapping(
             value = "/user/{user}",
             produces = MediaType.APPLICATION_JSON_VALUE

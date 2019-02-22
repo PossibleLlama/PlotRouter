@@ -18,6 +18,7 @@ public class PlotPointEntity {
 
     private String description;
 
+    // Empty constructor for spring to do its magic
     PlotPointEntity() {
     }
 
@@ -37,12 +38,24 @@ public class PlotPointEntity {
         return id;
     }
 
+    /**
+     * Set id should only be done once the user and summary are set.
+     *
+     * @param id
+     */
     void setId(final int id) {
         if (isUserAndSummaryFilled()) {
             String userSummary = this.user + this.summary;
             this.id = userSummary.hashCode();
         } else {
             this.id = id;
+        }
+    }
+
+    void setId() {
+        if (isUserAndSummaryFilled()) {
+            String userSummary = this.user + this.summary;
+            this.id = userSummary.hashCode();
         }
     }
 
@@ -80,6 +93,10 @@ public class PlotPointEntity {
         );
     }
 
+    /**
+     * Check if user and summary are both not null or empty.
+     * @return
+     */
     private boolean isUserAndSummaryFilled() {
         return user != null && !user.equals("")
                 && summary != null && !summary.equals("");
