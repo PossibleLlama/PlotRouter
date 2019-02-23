@@ -6,9 +6,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @Service
 public class PlotPointService {
+    private static final Logger LOGGER = Logger.getLogger(
+            PlotPointService.class.getSimpleName());
+
     @Autowired
     private PlotPointRepository repo;
 
@@ -19,8 +23,25 @@ public class PlotPointService {
     public PlotPointEntity insert(final PlotPointEntity plotPoint) {
         if (!isPlotPointValid(plotPoint))
             throw new IllegalArgumentException("Received plot point object is malformed");
-        repo.insert(plotPoint);
-        return plotPoint;
+
+        List<PlotPointEntity> foundSimilar = getByUser(plotPoint.getUser());
+        // Remove all intances where the summary is different.
+        foundSimilar.removeIf(
+                element -> !element.getSummary().equals(plotPoint.getSummary())
+        );
+
+        // If there are matches, the user and summary are identical. These two together must be unique.
+        if (foundSimilar.size() > 0)
+            throw new IllegalArgumentException("Received plot point already exists");
+
+        PlotPointEntity generatedId = new PlotPointEntity(
+                plotPoint.getUser(),
+                plotPoint.getSummary(),
+                plotPoint.getDescription()
+        );
+        repo.insert(generatedId);
+        LOGGER.info("Successfully created new plot point.");
+        return generatedId;
     }
 
     public List<PlotPointEntity> getAll() {
@@ -45,8 +66,6 @@ public class PlotPointService {
             return false;
         if (plotPoint.getSummary() == null || plotPoint.getSummary().equals(""))
             return false;
-        if (plotPoint.getId() == 0)
-            plotPoint.setId();
         if (plotPoint.getDescription() != null && plotPoint.getDescription().equals(""))
             plotPoint.setDescription(null);
         return true;

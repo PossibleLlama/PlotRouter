@@ -2,6 +2,8 @@ package org.kaccag.plotpoint;
 
 import org.springframework.data.annotation.Id;
 
+import java.util.UUID;
+
 /**
  * Bean for plot points.
  * Requires user and summary.
@@ -27,36 +29,18 @@ public class PlotPointEntity {
     }
 
     PlotPointEntity(final String user, final String summary, final String description) {
-        // TODO Change generate id to a method that can be done anywhere with the user and summary (in GUI)
+        this.id = UUID.randomUUID().hashCode();
         this.user = user;
         this.summary = summary;
         this.description = description;
-        this.setId(0);
     }
 
     public int getId() {
         return id;
     }
 
-    /**
-     * Set id should only be done once the user and summary are set.
-     *
-     * @param id
-     */
-    void setId(final int id) {
-        if (isUserAndSummaryFilled()) {
-            String userSummary = this.user + this.summary;
-            this.id = userSummary.hashCode();
-        } else {
-            this.id = id;
-        }
-    }
-
-    void setId() {
-        if (isUserAndSummaryFilled()) {
-            String userSummary = this.user + this.summary;
-            this.id = userSummary.hashCode();
-        }
+    public void setId(final int id) {
+        this.id = id;
     }
 
     public String getUser() {
@@ -91,14 +75,5 @@ public class PlotPointEntity {
                 "Plotpoint[id=%s, user=%s, summary=%s, description=%s]",
                 id, user, summary, description
         );
-    }
-
-    /**
-     * Check if user and summary are both not null or empty.
-     * @return
-     */
-    private boolean isUserAndSummaryFilled() {
-        return user != null && !user.equals("")
-                && summary != null && !summary.equals("");
     }
 }
