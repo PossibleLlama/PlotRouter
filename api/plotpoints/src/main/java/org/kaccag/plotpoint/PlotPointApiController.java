@@ -52,7 +52,8 @@ public class PlotPointApiController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<PlotPointEntity> update(@RequestBody final PlotPointEntity newPlotPoint) {
+    public ResponseEntity<PlotPointEntity> update(
+            @RequestBody final PlotPointEntity newPlotPoint) {
         LOGGER.info("Request received to update plot point.");
         return new ResponseEntity<>(newPlotPoint, HttpStatus.OK);
     }
