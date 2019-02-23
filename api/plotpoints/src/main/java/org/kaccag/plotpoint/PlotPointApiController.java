@@ -6,7 +6,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -97,7 +96,8 @@ public class PlotPointApiController {
     )
     public ResponseEntity<List<PlotPointEntity>> findAllByUser(@PathVariable String user) {
         LOGGER.info(String.format("Request received to get all plot point by user '%s.'", user));
-        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
+        List<PlotPointEntity> allByUser = service.getByUser(user);
+        return new ResponseEntity<>(allByUser, HttpStatus.OK);
     }
 
     @GetMapping(

@@ -36,6 +36,10 @@ public class PlotPointService {
                 String.format("No item of id '%d' can be found.", id));
     }
 
+    public List<PlotPointEntity> getByUser(final String user) {
+        return repo.findByUser(user);
+    }
+
     private boolean isPlotPointValid(PlotPointEntity plotPoint) {
         if (plotPoint.getUser() == null || plotPoint.getUser().equals(""))
             return false;
