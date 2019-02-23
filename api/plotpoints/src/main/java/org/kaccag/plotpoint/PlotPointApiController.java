@@ -42,7 +42,7 @@ public class PlotPointApiController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<PlotPointEntity> create(@RequestBody PlotPointEntity plotPoint) {
+    public ResponseEntity<PlotPointEntity> create(@RequestBody final PlotPointEntity plotPoint) {
         LOGGER.info("Request received to create new plot point.");
         PlotPointEntity inserted = service.insert(plotPoint);
         return new ResponseEntity<>(inserted, HttpStatus.CREATED);
@@ -52,7 +52,7 @@ public class PlotPointApiController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<PlotPointEntity> update(@RequestBody PlotPointEntity newPlotPoint) {
+    public ResponseEntity<PlotPointEntity> update(@RequestBody final PlotPointEntity newPlotPoint) {
         LOGGER.info("Request received to update plot point.");
         return new ResponseEntity<>(newPlotPoint, HttpStatus.OK);
     }
@@ -61,7 +61,7 @@ public class PlotPointApiController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<PlotPointEntity> delete(@RequestBody PlotPointEntity deletedTemplate) {
+    public ResponseEntity<PlotPointEntity> delete(@RequestBody final PlotPointEntity deletedTemplate) {
         LOGGER.info("Request received to delete plot point.");
         return new ResponseEntity<>(deletedTemplate, HttpStatus.OK);
     }
@@ -77,7 +77,7 @@ public class PlotPointApiController {
             value = BASE_PATH + "/id/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<PlotPointEntity> findOne(@PathVariable int id) {
+    public ResponseEntity<PlotPointEntity> findOne(@PathVariable final int id) {
         LOGGER.info(String.format("Request received to get plot point of id '%d'.", id));
         PlotPointEntity returned = service.getById(id);
         return new ResponseEntity<>(returned, HttpStatus.OK);
@@ -94,7 +94,7 @@ public class PlotPointApiController {
             value = BASE_PATH + "/user/{user}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<List<PlotPointEntity>> findAllByUser(@PathVariable String user) {
+    public ResponseEntity<List<PlotPointEntity>> findAllByUser(@PathVariable final String user) {
         LOGGER.info(String.format("Request received to get all plot point by user '%s.'", user));
         List<PlotPointEntity> allByUser = service.getByUser(user);
         return new ResponseEntity<>(allByUser, HttpStatus.OK);
