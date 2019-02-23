@@ -22,18 +22,21 @@ public class PlotPointService {
     }
 
     public PlotPointEntity insert(final PlotPointEntity plotPoint) {
-        if (!isPlotPointValid(plotPoint))
+        if (!isPlotPointFunctionallyValid(plotPoint)) {
+            LOGGER.warning(String.format(
+                    "Creation of plot point halted due to it being malformed. %s",
+                    plotPoint.toString()));
             throw new IllegalArgumentException("Received plot point object is malformed");
-
-        checkForExistingPlotPoint(plotPoint);
-
+        }
         PlotPointEntity generatedId = new PlotPointEntity(
                 plotPoint.getUser(),
                 plotPoint.getSummary(),
                 plotPoint.getDescription()
         );
+        checkForExistingPlotPoint(generatedId);
+
         repo.insert(generatedId);
-        LOGGER.info("Successfully created new plot point.");
+        LOGGER.info("Successfully created new plot point");
         return generatedId;
     }
 
@@ -44,12 +47,16 @@ public class PlotPointService {
         if (template.getSummary() != null && !template.getSummary().equals(""))
             checkForExistingPlotPoint(foundPlotPoint);
 
+        LOGGER.info(String.format("Updating plot point %s",
+                foundPlotPoint.getId().toString()));
         return repo.save(foundPlotPoint);
     }
 
     public PlotPointEntity delete(final UUID id) {
         PlotPointEntity deleted = getById(id);
         repo.deleteById(id);
+        LOGGER.info(String.format("Removed plot point %s by %s",
+                deleted.getId().toString(), deleted.getUser()));
         return deleted;
     }
 
@@ -61,20 +68,25 @@ public class PlotPointService {
         Optional<PlotPointEntity> possiblePlotPoint = repo.findById(id);
         if (possiblePlotPoint.isPresent())
             return possiblePlotPoint.get();
+        LOGGER.warning(String.format("Plot point %s could not be found", id.toString()));
         // TODO is this the most appropriate exception?
         throw new MongoClientException(
-                String.format("No item of id '%s' can be found.", id.toString()));
+                String.format("No item of id '%s' can be found", id.toString()));
     }
 
     public List<PlotPointEntity> getByUser(final String user) {
         return repo.findByUser(user);
     }
 
-    private boolean isPlotPointValid(PlotPointEntity plotPoint) {
-        if (plotPoint.getUser() == null || plotPoint.getUser().equals(""))
+    private boolean isPlotPointFunctionallyValid(PlotPointEntity plotPoint) {
+        if (plotPoint.getUser() == null || plotPoint.getUser().equals("")) {
+            LOGGER.warning("Invalid user provided");
             return false;
-        if (plotPoint.getSummary() == null || plotPoint.getSummary().equals(""))
+        }
+        if (plotPoint.getSummary() == null || plotPoint.getSummary().equals("")) {
+            LOGGER.warning("Invalid summary provided");
             return false;
+        }
         if (plotPoint.getDescription() != null && plotPoint.getDescription().equals(""))
             plotPoint.setDescription(null);
         return true;
@@ -89,13 +101,19 @@ public class PlotPointService {
         );
 
         // If there are matches, the user and summary are identical. These two together must be unique.
-        if (foundSimilar.size() > 0)
+        if (foundSimilar.size() > 0) {
+            LOGGER.warning(String.format(
+                    "Plot point by user %s with summary %s already exist",
+                    plotPoint.getUser(), plotPoint.getSummary()));
             throw new IllegalArgumentException("Received plot point already exists");
+        }
     }
 
     private void validateTemplate(PlotPointEntity template) {
-        if (template == null || template.getId() == null)
+        if (template == null || template.getId() == null) {
+            LOGGER.warning("Plot point or id is null");
             throw new IllegalArgumentException("Received plot point object is malformed");
+        }
     }
 
     /**

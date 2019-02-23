@@ -34,7 +34,7 @@ public class PlotPointApiController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<PlotPointHelp> getHelp() {
-        LOGGER.info("Request received to get help details.");
+        LOGGER.info("Request received to get help details");
         PlotPointHelp helper = new PlotPointHelp();
         return new ResponseEntity<>(helper, HttpStatus.OK);
     }
@@ -44,7 +44,7 @@ public class PlotPointApiController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<PlotPointEntity> create(@RequestBody final PlotPointEntity plotPoint) {
-        LOGGER.info("Request received to create new plot point.");
+        LOGGER.info("Request received to create new plot point");
         PlotPointEntity inserted = service.insert(plotPoint);
         return new ResponseEntity<>(inserted, HttpStatus.CREATED);
     }
@@ -54,7 +54,7 @@ public class PlotPointApiController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<PlotPointEntity> update(@RequestBody final PlotPointEntity newPlotPoint) {
-        LOGGER.info("Request received to update plot point.");
+        LOGGER.info("Request received to update plot point");
         PlotPointEntity updatedValue = service.update(newPlotPoint);
         return new ResponseEntity<>(updatedValue, HttpStatus.OK);
     }
@@ -65,7 +65,7 @@ public class PlotPointApiController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<PlotPointEntity> delete(@PathVariable final UUID id) {
-        LOGGER.info("Request received to delete plot point.");
+        LOGGER.info("Request received to delete plot point");
         PlotPointEntity deleted = service.delete(id);
         return new ResponseEntity<>(deleted, HttpStatus.OK);
     }
@@ -82,7 +82,7 @@ public class PlotPointApiController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<PlotPointEntity> findOne(@PathVariable final UUID id) {
-        LOGGER.info(String.format("Request received to get plot point of id '%s'.", id.toString()));
+        LOGGER.info(String.format("Request received to get plot point of id '%s'", id.toString()));
         PlotPointEntity returned = service.getById(id);
         return new ResponseEntity<>(returned, HttpStatus.OK);
     }
@@ -108,7 +108,7 @@ public class PlotPointApiController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<List<PlotPointEntity>> findAll() {
-        LOGGER.info("Request received to get all plot points.");
+        LOGGER.info("Request received to get all plot points");
         List<PlotPointEntity> allPlotPoints = service.getAll();
         return new ResponseEntity<>(allPlotPoints, HttpStatus.OK);
     }
