@@ -40,7 +40,7 @@ public class PlotPointServiceTest {
     }
 
     @Test
-    public void insertNullUserPP() {
+    public void insertNullUserPlotPoint() {
         PlotPointEntity inserted = new PlotPointEntity(null, "summary");
 
         try {
@@ -52,7 +52,7 @@ public class PlotPointServiceTest {
     }
 
     @Test
-    public void insertEmptyUserPP() {
+    public void insertEmptyUserPlotPoint() {
         PlotPointEntity inserted = new PlotPointEntity("", "summary");
 
         try {
@@ -64,7 +64,7 @@ public class PlotPointServiceTest {
     }
 
     @Test
-    public void insertNullSummaryPP() {
+    public void insertNullSummaryPlotPoint() {
         PlotPointEntity inserted = new PlotPointEntity("user", null);
 
         try {
@@ -76,7 +76,7 @@ public class PlotPointServiceTest {
     }
 
     @Test
-    public void insertEmptySummaryPP() {
+    public void insertEmptySummaryPlotPoint() {
         PlotPointEntity inserted = new PlotPointEntity("user", "");
 
         try {
@@ -88,7 +88,7 @@ public class PlotPointServiceTest {
     }
 
     @Test
-    public void insertNullDescriptionPP() {
+    public void insertNullDescriptionPlotPoint() {
         PlotPointEntity inserted = new PlotPointEntity("user", "summary", null);
 
         PlotPointEntity returned = service.insert(inserted);
@@ -99,7 +99,7 @@ public class PlotPointServiceTest {
     }
 
     @Test
-    public void insertEmptyDescriptionPP() {
+    public void insertEmptyDescriptionPlotPoint() {
         PlotPointEntity inserted = new PlotPointEntity("user", "summary", "");
 
         PlotPointEntity returned = service.insert(inserted);
@@ -110,7 +110,7 @@ public class PlotPointServiceTest {
     }
 
     @Test
-    public void insertContentDescriptionPP() {
+    public void insertContentDescriptionPlotPoint() {
         PlotPointEntity inserted = new PlotPointEntity("user", "summary", "description");
 
         PlotPointEntity returned = service.insert(inserted);
