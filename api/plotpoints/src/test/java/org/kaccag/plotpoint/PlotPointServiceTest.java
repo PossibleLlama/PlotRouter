@@ -36,7 +36,7 @@ public class PlotPointServiceTest {
 
         Assert.assertEquals("user1", returned.getUser());
         Assert.assertEquals("summary1", returned.getSummary());
-        Assert.assertEquals(null, returned.getDescription());
+        Assert.assertNull(returned.getDescription());
     }
 
     @Test
@@ -95,7 +95,7 @@ public class PlotPointServiceTest {
 
         Assert.assertEquals("user", returned.getUser());
         Assert.assertEquals("summary", returned.getSummary());
-        Assert.assertEquals(null, returned.getDescription());
+        Assert.assertNull(returned.getDescription());
     }
 
     @Test
@@ -106,7 +106,7 @@ public class PlotPointServiceTest {
 
         Assert.assertEquals("user", returned.getUser());
         Assert.assertEquals("summary", returned.getSummary());
-        Assert.assertEquals(null, returned.getDescription());
+        Assert.assertNull(returned.getDescription());
     }
 
     @Test
@@ -126,7 +126,7 @@ public class PlotPointServiceTest {
 
         Assert.assertEquals("user1", returned.getUser());
         Assert.assertEquals("summary1", returned.getSummary());
-        Assert.assertEquals(null, returned.getDescription());
+        Assert.assertNull(returned.getDescription());
     }
 
     @Test
