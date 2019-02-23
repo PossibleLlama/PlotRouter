@@ -16,6 +16,7 @@ public class PlotPointApiControllerTest {
     @Before
     public void setup() {
         PlotPointEntity plotPoint = generatePlotPoint();
+        plotPoint.setId(123);
         Optional<PlotPointEntity> foundPlotPoint = Optional.of(plotPoint);
 
         PlotPointRepository mockRepo = Mockito.mock(PlotPointRepository.class);
@@ -39,8 +40,10 @@ public class PlotPointApiControllerTest {
 
     @Test
     public void updateStatusCode() {
+        PlotPointEntity updateTo = generatePlotPoint();
+        updateTo.setId(123);
         ResponseEntity<PlotPointEntity> returned =
-                controller.update(generatePlotPoint());
+                controller.update(updateTo);
 
         Assert.assertEquals(HttpStatus.OK, returned.getStatusCode());
     }

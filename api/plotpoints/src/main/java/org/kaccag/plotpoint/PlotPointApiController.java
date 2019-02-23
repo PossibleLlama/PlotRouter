@@ -55,7 +55,8 @@ public class PlotPointApiController {
     public ResponseEntity<PlotPointEntity> update(
             @RequestBody final PlotPointEntity newPlotPoint) {
         LOGGER.info("Request received to update plot point.");
-        return new ResponseEntity<>(newPlotPoint, HttpStatus.OK);
+        PlotPointEntity updatedValue = service.update(newPlotPoint);
+        return new ResponseEntity<>(updatedValue, HttpStatus.OK);
     }
 
     @DeleteMapping(
