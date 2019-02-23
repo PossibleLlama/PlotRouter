@@ -24,15 +24,7 @@ public class PlotPointService {
         if (!isPlotPointValid(plotPoint))
             throw new IllegalArgumentException("Received plot point object is malformed");
 
-        List<PlotPointEntity> foundSimilar = getByUser(plotPoint.getUser());
-        // Remove all intances where the summary is different.
-        foundSimilar.removeIf(
-                element -> !element.getSummary().equals(plotPoint.getSummary())
-        );
-
-        // If there are matches, the user and summary are identical. These two together must be unique.
-        if (foundSimilar.size() > 0)
-            throw new IllegalArgumentException("Received plot point already exists");
+        checkForExistingPlotPoint(plotPoint);
 
         PlotPointEntity generatedId = new PlotPointEntity(
                 plotPoint.getUser(),
@@ -81,6 +73,18 @@ public class PlotPointService {
         if (plotPoint.getDescription() != null && plotPoint.getDescription().equals(""))
             plotPoint.setDescription(null);
         return true;
+    }
+
+    private void checkForExistingPlotPoint(PlotPointEntity plotPoint) {
+        List<PlotPointEntity> foundSimilar = getByUser(plotPoint.getUser());
+        // Remove all instances where the summary is different.
+        foundSimilar.removeIf(
+                element -> !element.getSummary().equals(plotPoint.getSummary())
+        );
+
+        // If there are matches, the user and summary are identical. These two together must be unique.
+        if (foundSimilar.size() > 0)
+            throw new IllegalArgumentException("Received plot point already exists");
     }
 
     private PlotPointEntity validateTemplate(PlotPointEntity template) {
