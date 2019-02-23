@@ -2,6 +2,8 @@ package org.kaccag.plotpoint;
 
 import org.springframework.data.annotation.Id;
 
+import java.util.UUID;
+
 /**
  * Bean for plot points.
  * Requires user and summary.
@@ -10,7 +12,7 @@ import org.springframework.data.annotation.Id;
 public class PlotPointEntity {
 
     @Id
-    private int id;
+    private UUID id;
 
     private String user;
 
@@ -27,36 +29,18 @@ public class PlotPointEntity {
     }
 
     PlotPointEntity(final String user, final String summary, final String description) {
-        // TODO Change generate id to a method that can be done anywhere with the user and summary (in GUI)
+        this.id = UUID.randomUUID();
         this.user = user;
         this.summary = summary;
         this.description = description;
-        this.setId(0);
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
-    /**
-     * Set id should only be done once the user and summary are set.
-     *
-     * @param id
-     */
-    void setId(final int id) {
-        if (isUserAndSummaryFilled()) {
-            String userSummary = this.user + this.summary;
-            this.id = userSummary.hashCode();
-        } else {
-            this.id = id;
-        }
-    }
-
-    void setId() {
-        if (isUserAndSummaryFilled()) {
-            String userSummary = this.user + this.summary;
-            this.id = userSummary.hashCode();
-        }
+    public void setId(final UUID id) {
+        this.id = id;
     }
 
     public String getUser() {
@@ -65,7 +49,6 @@ public class PlotPointEntity {
 
     void setUser(final String user) {
         this.user = user;
-        setId(0);
     }
 
     public String getSummary() {
@@ -74,7 +57,6 @@ public class PlotPointEntity {
 
     void setSummary(final String summary) {
         this.summary = summary;
-        setId(0);
     }
 
     public String getDescription() {
@@ -91,14 +73,5 @@ public class PlotPointEntity {
                 "Plotpoint[id=%s, user=%s, summary=%s, description=%s]",
                 id, user, summary, description
         );
-    }
-
-    /**
-     * Check if user and summary are both not null or empty.
-     * @return
-     */
-    private boolean isUserAndSummaryFilled() {
-        return user != null && !user.equals("")
-                && summary != null && !summary.equals("");
     }
 }
