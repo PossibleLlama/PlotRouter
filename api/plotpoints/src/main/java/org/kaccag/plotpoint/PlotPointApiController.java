@@ -60,12 +60,14 @@ public class PlotPointApiController {
     }
 
     @DeleteMapping(
+            value = BASE_PATH + "/id/{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<PlotPointEntity> delete(@RequestBody final PlotPointEntity deletedTemplate) {
+    public ResponseEntity<PlotPointEntity> delete(@PathVariable final int id) {
         LOGGER.info("Request received to delete plot point.");
-        return new ResponseEntity<>(deletedTemplate, HttpStatus.OK);
+        PlotPointEntity deleted = service.delete(id);
+        return new ResponseEntity<>(deleted, HttpStatus.OK);
     }
 
     /**

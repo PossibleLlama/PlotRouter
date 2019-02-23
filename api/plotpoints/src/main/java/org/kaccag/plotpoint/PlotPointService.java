@@ -46,6 +46,12 @@ public class PlotPointService {
         return repo.save(foundPlotPoint);
     }
 
+    public PlotPointEntity delete(final int id) {
+        PlotPointEntity deleted = getById(id);
+        repo.deleteById(id);
+        return deleted;
+    }
+
     public List<PlotPointEntity> getAll() {
         return repo.findAll();
     }

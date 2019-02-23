@@ -13,10 +13,12 @@ import java.util.Optional;
 public class PlotPointApiControllerTest {
     private PlotPointApiController controller;
 
+    private static final int SUCCESS_ID = 123;
+
     @Before
     public void setup() {
         PlotPointEntity plotPoint = generatePlotPoint();
-        plotPoint.setId(123);
+        plotPoint.setId(SUCCESS_ID);
         Optional<PlotPointEntity> foundPlotPoint = Optional.of(plotPoint);
 
         PlotPointRepository mockRepo = Mockito.mock(PlotPointRepository.class);
@@ -24,7 +26,7 @@ public class PlotPointApiControllerTest {
                 .when(mockRepo.save(plotPoint))
                 .thenReturn(plotPoint);
         Mockito
-                .when(mockRepo.findById(123))
+                .when(mockRepo.findById(SUCCESS_ID))
                 .thenReturn(foundPlotPoint);
         PlotPointService service = new PlotPointService(mockRepo);
         controller = new PlotPointApiController(service);
@@ -41,7 +43,7 @@ public class PlotPointApiControllerTest {
     @Test
     public void updateStatusCode() {
         PlotPointEntity updateTo = generatePlotPoint();
-        updateTo.setId(123);
+        updateTo.setId(SUCCESS_ID);
         ResponseEntity<PlotPointEntity> returned =
                 controller.update(updateTo);
 
@@ -51,7 +53,7 @@ public class PlotPointApiControllerTest {
     @Test
     public void deleteStatusCode() {
         ResponseEntity<PlotPointEntity> returned =
-                controller.delete(generatePlotPoint());
+                controller.delete(SUCCESS_ID);
 
         Assert.assertEquals(HttpStatus.OK, returned.getStatusCode());
     }
@@ -59,7 +61,7 @@ public class PlotPointApiControllerTest {
     @Test
     public void findOneStatusCode() {
         ResponseEntity<PlotPointEntity> returned =
-                controller.findOne(123);
+                controller.findOne(SUCCESS_ID);
 
         Assert.assertEquals(HttpStatus.OK, returned.getStatusCode());
     }
