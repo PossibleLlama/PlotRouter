@@ -9,11 +9,12 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public class PlotPointApiControllerTest {
     private PlotPointApiController controller;
 
-    private static final int SUCCESS_ID = 123;
+    private static final UUID SUCCESS_ID = UUID.randomUUID();
 
     @Before
     public void setup() {

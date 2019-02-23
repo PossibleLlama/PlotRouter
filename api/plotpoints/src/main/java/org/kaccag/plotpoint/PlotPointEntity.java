@@ -12,7 +12,7 @@ import java.util.UUID;
 public class PlotPointEntity {
 
     @Id
-    private int id;
+    private UUID id;
 
     private String user;
 
@@ -29,17 +29,17 @@ public class PlotPointEntity {
     }
 
     PlotPointEntity(final String user, final String summary, final String description) {
-        this.id = UUID.randomUUID().hashCode();
+        this.id = UUID.randomUUID();
         this.user = user;
         this.summary = summary;
         this.description = description;
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(final int id) {
+    public void setId(final UUID id) {
         this.id = id;
     }
 

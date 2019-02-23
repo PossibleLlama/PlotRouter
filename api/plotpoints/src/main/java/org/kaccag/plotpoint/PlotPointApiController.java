@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 /**
@@ -52,8 +53,7 @@ public class PlotPointApiController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<PlotPointEntity> update(
-            @RequestBody final PlotPointEntity newPlotPoint) {
+    public ResponseEntity<PlotPointEntity> update(@RequestBody final PlotPointEntity newPlotPoint) {
         LOGGER.info("Request received to update plot point.");
         PlotPointEntity updatedValue = service.update(newPlotPoint);
         return new ResponseEntity<>(updatedValue, HttpStatus.OK);
@@ -64,7 +64,7 @@ public class PlotPointApiController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<PlotPointEntity> delete(@PathVariable final int id) {
+    public ResponseEntity<PlotPointEntity> delete(@PathVariable final UUID id) {
         LOGGER.info("Request received to delete plot point.");
         PlotPointEntity deleted = service.delete(id);
         return new ResponseEntity<>(deleted, HttpStatus.OK);
@@ -81,8 +81,8 @@ public class PlotPointApiController {
             value = BASE_PATH + "/id/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<PlotPointEntity> findOne(@PathVariable final int id) {
-        LOGGER.info(String.format("Request received to get plot point of id '%d'.", id));
+    public ResponseEntity<PlotPointEntity> findOne(@PathVariable final UUID id) {
+        LOGGER.info(String.format("Request received to get plot point of id '%s'.", id.toString()));
         PlotPointEntity returned = service.getById(id);
         return new ResponseEntity<>(returned, HttpStatus.OK);
     }

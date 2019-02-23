@@ -8,17 +8,21 @@ import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.argThat;
 
 public class PlotPointServiceTest {
     private PlotPointService service;
 
+    private final UUID SUCCESS_ID = UUID.randomUUID();
+    private final UUID MISSING_ID = UUID.randomUUID();
+
     @Before
     public void setup() {
         PlotPointEntity plotPoint = new PlotPointEntity(
                 "user1", "summary1", "description1");
-        plotPoint.setId(1);
+        plotPoint.setId(SUCCESS_ID);
         Optional<PlotPointEntity> foundPlotPoint = Optional.of(plotPoint);
         Optional<PlotPointEntity> missingPlotPoint = Optional.empty();
 
@@ -39,14 +43,14 @@ public class PlotPointServiceTest {
                 .thenReturn(foundByUser);
         Mockito
                 .when(mockRepo.save(
-                        argThat(plotPointInstance -> plotPointInstance.getId() == 1)
+                        argThat(plotPointInstance -> plotPointInstance.getId() == SUCCESS_ID)
                 ))
                 .thenReturn(plotPoint);
         Mockito
-                .when(mockRepo.findById(1))
+                .when(mockRepo.findById(SUCCESS_ID))
                 .thenReturn(foundPlotPoint);
         Mockito
-                .when(mockRepo.findById(2))
+                .when(mockRepo.findById(MISSING_ID))
                 .thenReturn(missingPlotPoint);
         service = new PlotPointService(mockRepo);
     }
@@ -201,7 +205,7 @@ public class PlotPointServiceTest {
     @Test
     public void updateUserDoesNothing() {
         PlotPointEntity template = new PlotPointEntity();
-        template.setId(1);
+        template.setId(SUCCESS_ID);
         template.setUser("new user");
 
         PlotPointEntity returned = service.update(template);
@@ -212,7 +216,7 @@ public class PlotPointServiceTest {
     @Test
     public void updateSummary() {
         PlotPointEntity template = new PlotPointEntity();
-        template.setId(1);
+        template.setId(SUCCESS_ID);
         template.setSummary("new summary");
 
         PlotPointEntity returned = service.update(template);
@@ -223,7 +227,7 @@ public class PlotPointServiceTest {
     @Test
     public void updateNullSummaryDoesNothingToValue() {
         PlotPointEntity template = new PlotPointEntity();
-        template.setId(1);
+        template.setId(SUCCESS_ID);
         template.setSummary(null);
 
         PlotPointEntity returned = service.update(template);
@@ -234,7 +238,7 @@ public class PlotPointServiceTest {
     @Test
     public void updateEmptySummaryDoesNothingToValue() {
         PlotPointEntity template = new PlotPointEntity();
-        template.setId(1);
+        template.setId(SUCCESS_ID);
         template.setSummary("");
 
         PlotPointEntity returned = service.update(template);
@@ -245,7 +249,7 @@ public class PlotPointServiceTest {
     @Test
     public void updateNullDescriptionDoesNothingToValue() {
         PlotPointEntity template = new PlotPointEntity();
-        template.setId(1);
+        template.setId(SUCCESS_ID);
         template.setDescription(null);
 
         PlotPointEntity returned = service.update(template);
@@ -256,7 +260,7 @@ public class PlotPointServiceTest {
     @Test
     public void updateEmptyDescriptionDoesNothingToValue() {
         PlotPointEntity template = new PlotPointEntity();
-        template.setId(1);
+        template.setId(SUCCESS_ID);
         template.setDescription("");
 
         PlotPointEntity returned = service.update(template);
@@ -266,7 +270,7 @@ public class PlotPointServiceTest {
 
     @Test
     public void getByValidId() {
-        PlotPointEntity returned = service.getById(1);
+        PlotPointEntity returned = service.getById(SUCCESS_ID);
 
         Assert.assertEquals("user1", returned.getUser());
         Assert.assertEquals("summary1", returned.getSummary());
@@ -276,7 +280,7 @@ public class PlotPointServiceTest {
     @Test
     public void getByMissingId() {
         try {
-            service.getById(2);
+            service.getById(MISSING_ID);
             Assert.fail("Error should be thrown by missng id.");
         } catch (MongoClientException e) {
             // Expected error thrown

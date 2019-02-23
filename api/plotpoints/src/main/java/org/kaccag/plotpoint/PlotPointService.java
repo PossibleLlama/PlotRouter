@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 @Service
@@ -46,7 +47,7 @@ public class PlotPointService {
         return repo.save(foundPlotPoint);
     }
 
-    public PlotPointEntity delete(final int id) {
+    public PlotPointEntity delete(final UUID id) {
         PlotPointEntity deleted = getById(id);
         repo.deleteById(id);
         return deleted;
@@ -56,13 +57,13 @@ public class PlotPointService {
         return repo.findAll();
     }
 
-    public PlotPointEntity getById(final int id) {
+    public PlotPointEntity getById(final UUID id) {
         Optional<PlotPointEntity> possiblePlotPoint = repo.findById(id);
         if (possiblePlotPoint.isPresent())
             return possiblePlotPoint.get();
         // TODO is this the most appropriate exception?
         throw new MongoClientException(
-                String.format("No item of id '%d' can be found.", id));
+                String.format("No item of id '%s' can be found.", id.toString()));
     }
 
     public List<PlotPointEntity> getByUser(final String user) {
@@ -93,7 +94,7 @@ public class PlotPointService {
     }
 
     private void validateTemplate(PlotPointEntity template) {
-        if (template == null || template.getId() == 0)
+        if (template == null || template.getId() == null)
             throw new IllegalArgumentException("Received plot point object is malformed");
     }
 
