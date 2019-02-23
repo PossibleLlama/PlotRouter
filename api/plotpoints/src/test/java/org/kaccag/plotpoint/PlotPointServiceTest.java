@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class PlotPointServiceTest {
@@ -17,10 +18,21 @@ public class PlotPointServiceTest {
         Optional<PlotPointEntity> foundPlotPoint = Optional.of(plotPoint);
         Optional<PlotPointEntity> missingPlotPoint = Optional.empty();
 
+        ArrayList<PlotPointEntity> foundByUser = new ArrayList<>();
+        foundByUser.add(new PlotPointEntity("user2", "summary1"));
+        foundByUser.add(new PlotPointEntity("user2", "summary2"));
+        foundByUser.add(new PlotPointEntity("user2", "summary3"));
+
         PlotPointRepository mockRepo = Mockito.mock(PlotPointRepository.class);
         Mockito
-                .when(mockRepo.save(plotPoint))
+                .when(mockRepo.insert(plotPoint))
                 .thenReturn(plotPoint);
+        Mockito
+                .when(mockRepo.findByUser("user1"))
+                .thenReturn(new ArrayList<>());
+        Mockito
+                .when(mockRepo.findByUser("user2"))
+                .thenReturn(foundByUser);
         Mockito
                 .when(mockRepo.findById(1))
                 .thenReturn(foundPlotPoint);
@@ -118,6 +130,39 @@ public class PlotPointServiceTest {
         Assert.assertEquals("user", returned.getUser());
         Assert.assertEquals("summary", returned.getSummary());
         Assert.assertEquals("description", returned.getDescription());
+    }
+
+    @Test
+    public void insertWithNoExistingPlotPointsByUser() {
+        PlotPointEntity returned = service.insert(generatePlotPoint());
+
+        Assert.assertEquals("user1", returned.getUser());
+        Assert.assertEquals("summary1", returned.getSummary());
+        Assert.assertNull(returned.getDescription());
+    }
+
+    @Test
+    public void insertWithDifferentPlotPointsByUser() {
+        PlotPointEntity sameUserDifferentSummary =
+                new PlotPointEntity("user2", "new summary");
+        PlotPointEntity returned = service.insert(sameUserDifferentSummary);
+
+        Assert.assertEquals("user2", returned.getUser());
+        Assert.assertEquals("new summary", returned.getSummary());
+        Assert.assertNull(returned.getDescription());
+    }
+
+    @Test
+    public void insertWithExistingPlotPointSummaryByUser() {
+        PlotPointEntity sameUserSameSummary =
+                new PlotPointEntity("user2", "summary1");
+
+        try {
+            service.insert(sameUserSameSummary);
+            Assert.fail("Should have thrown exception as user summary combo already exist.");
+        } catch (IllegalArgumentException e) {
+            // Expected error to be thrown
+        }
     }
 
     @Test

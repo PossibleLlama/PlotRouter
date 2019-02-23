@@ -77,6 +77,7 @@ public class PlotPointService {
 
     private void checkForExistingPlotPoint(PlotPointEntity plotPoint) {
         List<PlotPointEntity> foundSimilar = getByUser(plotPoint.getUser());
+
         // Remove all instances where the summary is different.
         foundSimilar.removeIf(
                 element -> !element.getSummary().equals(plotPoint.getSummary())
