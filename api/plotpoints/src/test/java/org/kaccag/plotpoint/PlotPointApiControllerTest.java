@@ -8,18 +8,23 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 public class PlotPointApiControllerTest {
     private PlotPointApiController controller;
 
     @Before
     public void setup() {
-        PlotPointEntity plotPoint = new PlotPointEntity("user1", "summary1");
+        PlotPointEntity plotPoint = generatePlotPoint();
+        Optional<PlotPointEntity> foundPlotPoint = Optional.of(plotPoint);
 
         PlotPointRepository mockRepo = Mockito.mock(PlotPointRepository.class);
         Mockito
                 .when(mockRepo.save(plotPoint))
                 .thenReturn(plotPoint);
+        Mockito
+                .when(mockRepo.findById(123))
+                .thenReturn(foundPlotPoint);
         PlotPointService service = new PlotPointService(mockRepo);
         controller = new PlotPointApiController(service);
     }

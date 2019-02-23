@@ -80,9 +80,8 @@ public class PlotPointApiController {
     )
     public ResponseEntity<PlotPointEntity> findOne(@PathVariable int id) {
         LOGGER.info(String.format("Request received to get plot point of id '%d'.", id));
-        return new ResponseEntity<>(
-                new PlotPointEntity("user", "summary"),
-                HttpStatus.OK);
+        PlotPointEntity returned = service.getById(id);
+        return new ResponseEntity<>(returned, HttpStatus.OK);
     }
 
     /**
