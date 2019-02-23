@@ -1,9 +1,11 @@
 package org.kaccag.plotpoint;
 
+import com.mongodb.MongoClientException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PlotPointService {
@@ -23,6 +25,15 @@ public class PlotPointService {
 
     public List<PlotPointEntity> getAll() {
         return repo.findAll();
+    }
+
+    public PlotPointEntity getById(final int id) {
+        Optional<PlotPointEntity> possiblePlotPoint = repo.findById(id);
+        if (possiblePlotPoint.isPresent())
+            return possiblePlotPoint.get();
+        // TODO is this the most appropriate exception?
+        throw new MongoClientException(
+                String.format("No item of id '%d' can be found.", id));
     }
 
     private boolean isPlotPointValid(PlotPointEntity plotPoint) {
