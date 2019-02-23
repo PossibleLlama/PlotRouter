@@ -7,6 +7,7 @@
 # Java
 *.jar
 *target/
+database.properties
 
 # Javascript
 node_modules/
