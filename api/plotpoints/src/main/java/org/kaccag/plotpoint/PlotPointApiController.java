@@ -23,6 +23,7 @@ public class PlotPointApiController {
     }
 
     @GetMapping(
+            value = "/help",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<PlotPointHelp> getHelp() {
@@ -35,8 +36,8 @@ public class PlotPointApiController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<PlotPointEntity> create(@RequestBody PlotPointEntity plotPoint) {
-        service.insert(plotPoint);
-        return new ResponseEntity<>(plotPoint, HttpStatus.CREATED);
+        PlotPointEntity inserted = service.insert(plotPoint);
+        return new ResponseEntity<>(inserted, HttpStatus.CREATED);
     }
 
     @PatchMapping(
@@ -83,7 +84,14 @@ public class PlotPointApiController {
             value = "/user/{user}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<List<PlotPointEntity>> findAll(@PathVariable String user) {
+    public ResponseEntity<List<PlotPointEntity>> findAllByUser(@PathVariable String user) {
+        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
+    }
+
+    @GetMapping(
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<List<PlotPointEntity>> findAll() {
         return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
     }
 }

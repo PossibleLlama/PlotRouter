@@ -53,8 +53,15 @@ public class PlotPointApiControllerTest {
     }
 
     @Test
+    public void findAllUserStatusCode() {
+        ResponseEntity<List<PlotPointEntity>> returned = controller.findAllByUser("user");
+
+        Assert.assertEquals(HttpStatus.OK, returned.getStatusCode());
+    }
+
+    @Test
     public void findAllStatusCode() {
-        ResponseEntity<List<PlotPointEntity>> returned = controller.findAll("user");
+        ResponseEntity<List<PlotPointEntity>> returned = controller.findAll();
 
         Assert.assertEquals(HttpStatus.OK, returned.getStatusCode());
     }
