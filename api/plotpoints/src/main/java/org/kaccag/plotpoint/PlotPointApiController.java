@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Any errors thrown should be directed to the error controller.
@@ -15,6 +16,12 @@ import java.util.List;
  */
 @RestController(value = "/api/plotpoint")
 public class PlotPointApiController {
+
+    private static final Logger LOGGER = Logger.getLogger(
+            PlotPointApiController.class.getSimpleName());
+
+    private static final String BASE_PATH = "/api/plotpoint";
+
     @Autowired
     private PlotPointService service;
 
@@ -23,10 +30,11 @@ public class PlotPointApiController {
     }
 
     @GetMapping(
-            value = "/help",
+            value = BASE_PATH + "/help",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<PlotPointHelp> getHelp() {
+        LOGGER.info("Request received to get help details.");
         PlotPointHelp helper = new PlotPointHelp();
         return new ResponseEntity<>(helper, HttpStatus.OK);
     }
@@ -36,6 +44,7 @@ public class PlotPointApiController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<PlotPointEntity> create(@RequestBody PlotPointEntity plotPoint) {
+        LOGGER.info("Request received to create new plot point.");
         PlotPointEntity inserted = service.insert(plotPoint);
         return new ResponseEntity<>(inserted, HttpStatus.CREATED);
     }
@@ -45,6 +54,7 @@ public class PlotPointApiController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<PlotPointEntity> update(@RequestBody PlotPointEntity newPlotPoint) {
+        LOGGER.info("Request received to update plot point.");
         return new ResponseEntity<>(newPlotPoint, HttpStatus.OK);
     }
 
@@ -53,6 +63,7 @@ public class PlotPointApiController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<PlotPointEntity> delete(@RequestBody PlotPointEntity deletedTemplate) {
+        LOGGER.info("Request received to delete plot point.");
         return new ResponseEntity<>(deletedTemplate, HttpStatus.OK);
     }
 
@@ -64,10 +75,11 @@ public class PlotPointApiController {
      * @return
      */
     @GetMapping(
-            value = "/id/{id}",
+            value = BASE_PATH + "/id/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<PlotPointEntity> findOne(@PathVariable int id) {
+        LOGGER.info(String.format("Request received to get plot point of id '%d'.", id));
         return new ResponseEntity<>(
                 new PlotPointEntity("user", "summary"),
                 HttpStatus.OK);
@@ -81,10 +93,11 @@ public class PlotPointApiController {
      * @return
      */
     @GetMapping(
-            value = "/user/{user}",
+            value = BASE_PATH + "/user/{user}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<List<PlotPointEntity>> findAllByUser(@PathVariable String user) {
+        LOGGER.info(String.format("Request received to get all plot point by user '%s.'", user));
         return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
     }
 
@@ -92,6 +105,8 @@ public class PlotPointApiController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<List<PlotPointEntity>> findAll() {
-        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
+        LOGGER.info("Request received to get all plot points.");
+        List<PlotPointEntity> allPlotPoints = service.getAll();
+        return new ResponseEntity<>(allPlotPoints, HttpStatus.OK);
     }
 }

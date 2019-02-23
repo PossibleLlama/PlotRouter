@@ -3,6 +3,8 @@ package org.kaccag.plotpoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PlotPointService {
     @Autowired
@@ -17,6 +19,10 @@ public class PlotPointService {
             throw new IllegalArgumentException("Received plot point object is malformed");
         repo.insert(plotPoint);
         return plotPoint;
+    }
+
+    public List<PlotPointEntity> getAll() {
+        return repo.findAll();
     }
 
     private boolean isPlotPointValid(PlotPointEntity plotPoint) {
