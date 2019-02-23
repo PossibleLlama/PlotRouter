@@ -9,12 +9,16 @@ import org.mockito.Mockito;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.argThat;
+
 public class PlotPointServiceTest {
     private PlotPointService service;
 
     @Before
     public void setup() {
-        PlotPointEntity plotPoint = new PlotPointEntity("user1", "summary1");
+        PlotPointEntity plotPoint = new PlotPointEntity(
+                "user1", "summary1", "description1");
+        plotPoint.setId(1);
         Optional<PlotPointEntity> foundPlotPoint = Optional.of(plotPoint);
         Optional<PlotPointEntity> missingPlotPoint = Optional.empty();
 
@@ -33,6 +37,11 @@ public class PlotPointServiceTest {
         Mockito
                 .when(mockRepo.findByUser("user2"))
                 .thenReturn(foundByUser);
+        Mockito
+                .when(mockRepo.save(
+                        argThat(plotPointInstance -> plotPointInstance.getId() == 1)
+                ))
+                .thenReturn(plotPoint);
         Mockito
                 .when(mockRepo.findById(1))
                 .thenReturn(foundPlotPoint);
@@ -166,12 +175,102 @@ public class PlotPointServiceTest {
     }
 
     @Test
+    public void updateWithNullTemplate() {
+        try {
+            service.update(null);
+            Assert.fail("Error should be thrown if template is null");
+        } catch (IllegalArgumentException e) {
+            // Expected error thrown
+        }
+    }
+
+    @Test
+    public void updateWithNoProvidedId() {
+        PlotPointEntity noId = new PlotPointEntity();
+        noId.setUser("user");
+        noId.setSummary("summary");
+
+        try {
+            service.update(noId);
+            Assert.fail("Error should be thrown if no id is provided");
+        } catch (IllegalArgumentException e) {
+            // Expected error to be thrown
+        }
+    }
+
+    @Test
+    public void updateUserDoesNothing() {
+        PlotPointEntity template = new PlotPointEntity();
+        template.setId(1);
+        template.setUser("new user");
+
+        PlotPointEntity returned = service.update(template);
+
+        Assert.assertNotEquals(template.getUser(), returned.getUser());
+    }
+
+    @Test
+    public void updateSummary() {
+        PlotPointEntity template = new PlotPointEntity();
+        template.setId(1);
+        template.setSummary("new summary");
+
+        PlotPointEntity returned = service.update(template);
+
+        Assert.assertEquals(template.getSummary(), returned.getSummary());
+    }
+
+    @Test
+    public void updateNullSummaryDoesNothingToValue() {
+        PlotPointEntity template = new PlotPointEntity();
+        template.setId(1);
+        template.setSummary(null);
+
+        PlotPointEntity returned = service.update(template);
+
+        Assert.assertNotEquals(template.getSummary(), returned.getSummary());
+    }
+
+    @Test
+    public void updateEmptySummaryDoesNothingToValue() {
+        PlotPointEntity template = new PlotPointEntity();
+        template.setId(1);
+        template.setSummary("");
+
+        PlotPointEntity returned = service.update(template);
+
+        Assert.assertNotEquals(template.getSummary(), returned.getSummary());
+    }
+
+    @Test
+    public void updateNullDescriptionDoesNothingToValue() {
+        PlotPointEntity template = new PlotPointEntity();
+        template.setId(1);
+        template.setDescription(null);
+
+        PlotPointEntity returned = service.update(template);
+
+        Assert.assertNotEquals(template.getDescription(), returned.getDescription());
+    }
+
+    @Test
+    public void updateEmptyDescriptionDoesNothingToValue() {
+        PlotPointEntity template = new PlotPointEntity();
+        template.setId(1);
+        template.setDescription("");
+
+        PlotPointEntity returned = service.update(template);
+
+        Assert.assertNotEquals(template.getDescription(), returned.getDescription());
+    }
+
+    @Test
     public void getByValidId() {
         PlotPointEntity returned = service.getById(1);
 
         Assert.assertEquals("user1", returned.getUser());
         Assert.assertEquals("summary1", returned.getSummary());
-        Assert.assertNull(returned.getDescription());
+        Assert.assertEquals("description1", returned.getDescription());
     }
 
     @Test
@@ -180,16 +279,6 @@ public class PlotPointServiceTest {
             service.getById(2);
             Assert.fail("Error should be thrown by missng id.");
         } catch (MongoClientException e) {
-            // Expected error thrown
-        }
-    }
-
-    @Test
-    public void updateWithNullTemplate() {
-        try {
-            service.update(null);
-            Assert.fail("Error should be thrown if template is null.");
-        } catch (IllegalArgumentException e) {
             // Expected error thrown
         }
     }

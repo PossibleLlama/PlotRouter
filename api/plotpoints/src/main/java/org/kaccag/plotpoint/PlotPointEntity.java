@@ -49,7 +49,6 @@ public class PlotPointEntity {
 
     void setUser(final String user) {
         this.user = user;
-        setId(0);
     }
 
     public String getSummary() {
@@ -58,7 +57,6 @@ public class PlotPointEntity {
 
     void setSummary(final String summary) {
         this.summary = summary;
-        setId(0);
     }
 
     public String getDescription() {

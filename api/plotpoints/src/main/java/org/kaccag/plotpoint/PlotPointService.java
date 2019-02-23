@@ -37,13 +37,11 @@ public class PlotPointService {
     }
 
     public PlotPointEntity update(final PlotPointEntity template) {
-        // TODO tests/check functionality after changing way gen id's
-        PlotPointEntity foundPlotPoint = validateTemplate(template);
-
+        validateTemplate(template);
+        PlotPointEntity foundPlotPoint = getById(template.getId());
+        updateFoundWithValues(foundPlotPoint, template);
         if (template.getSummary() != null && !template.getSummary().equals(""))
-            foundPlotPoint.setSummary(template.getSummary());
-        if (template.getDescription() != null && !template.getDescription().equals(""))
-            foundPlotPoint.setDescription(template.getDescription());
+            checkForExistingPlotPoint(foundPlotPoint);
 
         return repo.save(foundPlotPoint);
     }
@@ -88,10 +86,24 @@ public class PlotPointService {
             throw new IllegalArgumentException("Received plot point already exists");
     }
 
-    private PlotPointEntity validateTemplate(PlotPointEntity template) {
+    private void validateTemplate(PlotPointEntity template) {
         if (template == null || template.getId() == 0)
             throw new IllegalArgumentException("Received plot point object is malformed");
+    }
 
-        return getById(template.getId());
+    /**
+     * Update values of what was found to that of templates.
+     * This excludes user, as this should not change, and
+     * id as it was used to find the non template instance.
+     *
+     * @param foundPlotPoint
+     * @param template
+     */
+    private void updateFoundWithValues(PlotPointEntity foundPlotPoint, PlotPointEntity template) {
+        // For each parameter, if it is asking to be changed, change it.
+        if (template.getSummary() != null && !template.getSummary().equals(""))
+            foundPlotPoint.setSummary(template.getSummary());
+        if (template.getDescription() != null && !template.getDescription().equals(""))
+            foundPlotPoint.setDescription(template.getDescription());
     }
 }
