@@ -139,6 +139,16 @@ public class PlotPointServiceTest {
         }
     }
 
+    @Test
+    public void updateWithNullTemplate() {
+        try {
+            service.update(null);
+            Assert.fail("Error should be thrown if template is null.");
+        } catch (IllegalArgumentException e) {
+            // Expected error thrown
+        }
+    }
+
     private PlotPointEntity generatePlotPoint() {
         return new PlotPointEntity("user1", "summary1");
     }

@@ -44,6 +44,18 @@ public class PlotPointService {
         return generatedId;
     }
 
+    public PlotPointEntity update(final PlotPointEntity template) {
+        // TODO tests/check functionality after changing way gen id's
+        PlotPointEntity foundPlotPoint = validateTemplate(template);
+
+        if (template.getSummary() != null && !template.getSummary().equals(""))
+            foundPlotPoint.setSummary(template.getSummary());
+        if (template.getDescription() != null && !template.getDescription().equals(""))
+            foundPlotPoint.setDescription(template.getDescription());
+
+        return repo.save(foundPlotPoint);
+    }
+
     public List<PlotPointEntity> getAll() {
         return repo.findAll();
     }
@@ -69,5 +81,12 @@ public class PlotPointService {
         if (plotPoint.getDescription() != null && plotPoint.getDescription().equals(""))
             plotPoint.setDescription(null);
         return true;
+    }
+
+    private PlotPointEntity validateTemplate(PlotPointEntity template) {
+        if (template == null || template.getId() == 0)
+            throw new IllegalArgumentException("Received plot point object is malformed");
+
+        return getById(template.getId());
     }
 }
