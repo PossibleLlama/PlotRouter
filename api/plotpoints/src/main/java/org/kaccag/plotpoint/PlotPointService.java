@@ -1,6 +1,6 @@
 package org.kaccag.plotpoint;
 
-import com.mongodb.MongoClientException;
+import org.kaccag.error.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,8 +69,7 @@ public class PlotPointService {
         if (possiblePlotPoint.isPresent())
             return possiblePlotPoint.get();
         LOGGER.warning(String.format("Plot point %s could not be found", id.toString()));
-        // TODO is this the most appropriate exception?
-        throw new MongoClientException(
+        throw new ResourceNotFoundException(
                 String.format("No item of id '%s' can be found", id.toString()));
     }
 

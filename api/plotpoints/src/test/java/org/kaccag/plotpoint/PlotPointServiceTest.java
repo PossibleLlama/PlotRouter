@@ -1,9 +1,9 @@
 package org.kaccag.plotpoint;
 
-import com.mongodb.MongoClientException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kaccag.error.ResourceNotFoundException;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
@@ -282,7 +282,7 @@ public class PlotPointServiceTest {
         try {
             service.getById(MISSING_ID);
             Assert.fail("Error should be thrown by missng id.");
-        } catch (MongoClientException e) {
+        } catch (ResourceNotFoundException e) {
             // Expected error thrown
         }
     }
