@@ -200,6 +200,36 @@ public class PlotPointServiceTest {
     }
 
     @Test
+    public void insertWithInvalidPrePlotPointId() {
+        PlotPointEntity plotPoint = new PlotPointEntity(
+                "user1", "summary2", "description1"
+        );
+        plotPoint.setPrecedingPlotPointId(MISSING_ID);
+
+        try {
+            service.insert(plotPoint);
+            Assert.fail("Preceding plot point of missing id should throw exception");
+        } catch (ResourceNotFoundException e) {
+            // Expected error thrown
+        }
+    }
+
+    @Test
+    public void insertWithDifferentPrePlotPointUser() {
+        PlotPointEntity plotPoint = new PlotPointEntity(
+                "invalidUser", "summary2", "description1"
+        );
+        plotPoint.setPrecedingPlotPointId(EXISTING_ID);
+
+        try {
+            service.insert(plotPoint);
+            Assert.fail("Preceding plot point by different user should throw exception");
+        } catch (IllegalArgumentException e) {
+            // Expected error thrown
+        }
+    }
+
+    @Test
     public void updateWithNullTemplate() {
         try {
             service.update(null);
