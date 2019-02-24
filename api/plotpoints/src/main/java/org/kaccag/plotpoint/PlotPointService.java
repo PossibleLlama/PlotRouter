@@ -34,6 +34,17 @@ public class PlotPointService {
                 plotPoint.getDescription()
         );
         checkForExistingPlotPoint(generatedId);
+        if (plotPoint.getPrecedingPlotPointId() != null) {
+            try {
+                PlotPointEntity preceding = getById(plotPoint.getPrecedingPlotPointId());
+                if (preceding.getUser() != generatedId.getUser())
+                    throw new IllegalArgumentException(
+                            "Provided preceding plot point is not by the same user");
+                generatedId.setPrecedingPlotPointId(preceding.getId());
+            } catch (ResourceNotFoundException e) {
+                throw new ResourceNotFoundException("Provided preceding plot point does not exist", e);
+            }
+        }
 
         repo.insert(generatedId);
         LOGGER.info("Successfully created new plot point");
