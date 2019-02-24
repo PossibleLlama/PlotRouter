@@ -29,8 +29,6 @@ public class PlotPointServiceTest {
         plotPointWithPreceding.setId(SECOND_VALID_ID);
         plotPointWithPreceding.setPrecedingPlotPointId(EXISTING_ID);
 
-        System.out.printf("********\nPlot point to emulate\n%s\n", plotPointWithPreceding.toString());
-
         Optional<PlotPointEntity> foundPlotPoint = Optional.of(plotPoint);
         Optional<PlotPointEntity> missingPlotPoint = Optional.empty();
 
@@ -198,7 +196,6 @@ public class PlotPointServiceTest {
 
         PlotPointEntity returned = service.insert(plotPointWithPrePlotPoint);
 
-        System.out.printf("********\nPlot point sent\n%s\nPlot point returned\n%s\n", plotPointWithPrePlotPoint.toString(), returned.toString());
         Assert.assertEquals(EXISTING_ID, returned.getPrecedingPlotPointId());
     }
 
