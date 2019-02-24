@@ -12,9 +12,8 @@ import java.util.logging.Logger;
 
 /**
  * Any errors thrown should be directed to the error controller.
- * TODO create an error controller
  */
-@RestController(value = "/api/plotpoint")
+@RestController
 public class PlotPointApiController {
 
     private static final Logger LOGGER = Logger.getLogger(
@@ -40,6 +39,7 @@ public class PlotPointApiController {
     }
 
     @PostMapping(
+            value = BASE_PATH,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
@@ -50,6 +50,7 @@ public class PlotPointApiController {
     }
 
     @PatchMapping(
+            value = BASE_PATH,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
@@ -105,6 +106,7 @@ public class PlotPointApiController {
     }
 
     @GetMapping(
+            value = BASE_PATH,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<List<PlotPointEntity>> findAll() {
