@@ -34,17 +34,7 @@ public class PlotPointService {
                 plotPoint.getDescription()
         );
         checkForExistingPlotPoint(generatedId);
-        if (plotPoint.getPrecedingPlotPointId() != null) {
-            try {
-                PlotPointEntity preceding = getById(plotPoint.getPrecedingPlotPointId());
-                if (preceding.getUser() != generatedId.getUser())
-                    throw new IllegalArgumentException(
-                            "Provided preceding plot point is not by the same user");
-                generatedId.setPrecedingPlotPointId(preceding.getId());
-            } catch (ResourceNotFoundException e) {
-                throw new ResourceNotFoundException("Provided preceding plot point does not exist", e);
-            }
-        }
+        validatePrecedingPlotPoint(plotPoint, generatedId);
 
         repo.insert(generatedId);
         LOGGER.info("Successfully created new plot point");
@@ -116,6 +106,20 @@ public class PlotPointService {
                     "Plot point by user %s with summary %s already exist",
                     plotPoint.getUser(), plotPoint.getSummary()));
             throw new IllegalArgumentException("Received plot point already exists");
+        }
+    }
+
+    private void validatePrecedingPlotPoint(PlotPointEntity passedPlotPoint, PlotPointEntity endPlotPoint) {
+        if (passedPlotPoint.getPrecedingPlotPointId() != null) {
+            try {
+                PlotPointEntity preceding = getById(passedPlotPoint.getPrecedingPlotPointId());
+                if (preceding.getUser() != endPlotPoint.getUser())
+                    throw new IllegalArgumentException(
+                            "Provided preceding plot point is not by the same user");
+                endPlotPoint.setPrecedingPlotPointId(preceding.getId());
+            } catch (ResourceNotFoundException e) {
+                throw new ResourceNotFoundException("Provided preceding plot point does not exist", e);
+            }
         }
     }
 
