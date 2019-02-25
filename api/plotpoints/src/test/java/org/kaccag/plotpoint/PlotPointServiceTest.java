@@ -18,6 +18,7 @@ public class PlotPointServiceTest {
     private final UUID EXISTING_ID = UUID.randomUUID();
     private final UUID MISSING_ID = UUID.randomUUID();
     private final UUID SECOND_VALID_ID = UUID.randomUUID();
+    private final UUID VALID_ID_DEPENDENT_PREPP = UUID.randomUUID();
 
     @Before
     public void setup() {
@@ -33,8 +34,12 @@ public class PlotPointServiceTest {
         Optional<PlotPointEntity> missingPlotPoint = Optional.empty();
 
         ArrayList<PlotPointEntity> foundByUser = new ArrayList<>();
-        foundByUser.add(new PlotPointEntity("user2", "summary1"));
-        foundByUser.add(new PlotPointEntity("user2", "summary2"));
+        PlotPointEntity foundByUser1 = new PlotPointEntity("user2", "summary1");
+        foundByUser1.setId(VALID_ID_DEPENDENT_PREPP);
+        PlotPointEntity foundByUser2 = new PlotPointEntity("user2", "summary2");
+        foundByUser2.setPrecedingPlotPointId(VALID_ID_DEPENDENT_PREPP);
+        foundByUser.add(foundByUser1);
+        foundByUser.add(foundByUser2);
         foundByUser.add(new PlotPointEntity("user2", "summary3"));
 
         PlotPointRepository mockRepo = Mockito.mock(PlotPointRepository.class);
@@ -61,6 +66,12 @@ public class PlotPointServiceTest {
         Mockito
                 .when(mockRepo.findById(MISSING_ID))
                 .thenReturn(missingPlotPoint);
+        Mockito
+                .when(mockRepo.findById(VALID_ID_DEPENDENT_PREPP))
+                .thenReturn(Optional.of(foundByUser1));
+        Mockito
+                .when(mockRepo.findById(foundByUser2.getId()))
+                .thenReturn(Optional.of(foundByUser2));
         service = new PlotPointService(mockRepo);
     }
 
@@ -317,6 +328,33 @@ public class PlotPointServiceTest {
         PlotPointEntity returned = service.update(template);
 
         Assert.assertNotEquals(template.getDescription(), returned.getDescription());
+    }
+
+    @Test
+    public void deleteValidId() {
+        PlotPointEntity returned = service.delete(EXISTING_ID);
+
+        Assert.assertEquals("user1", returned.getUser());
+        Assert.assertEquals("summary1", returned.getSummary());
+        Assert.assertEquals("description1", returned.getDescription());
+    }
+
+    @Test
+    public void deleteMissingId() {
+        try {
+            service.delete(MISSING_ID);
+            Assert.fail("Deleting a missing id should throw an error");
+        } catch (ResourceNotFoundException e) {
+            // Expected error thrown
+        }
+    }
+
+    @Test
+    public void deletePlotPointWithAnotherDependentOnIt() {
+        service.delete(VALID_ID_DEPENDENT_PREPP);
+
+        // This is actually tested in automated testing. As mock would need to return
+        // a different list the second call, this just checks no errors are thrown.
     }
 
     @Test

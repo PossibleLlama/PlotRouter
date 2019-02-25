@@ -41,21 +41,34 @@ public class PlotPointService {
         return generatedId;
     }
 
-    public PlotPointEntity update(final PlotPointEntity template) {
-        validateTemplate(template);
-        PlotPointEntity foundPlotPoint = getById(template.getId());
-        updateFoundWithValues(foundPlotPoint, template);
-        if (template.getSummary() != null && !template.getSummary().equals(""))
-            checkForExistingPlotPoint(foundPlotPoint);
+    public PlotPointEntity update(final PlotPointEntity toBe) {
+        validateTemplate(toBe);
+        PlotPointEntity current = getById(toBe.getId());
+        updateFoundWithValues(current, toBe);
+        if (toBe.getSummary() != null && !toBe.getSummary().equals(""))
+            checkForExistingPlotPoint(current);
 
         LOGGER.info(String.format("Updating plot point %s",
-                foundPlotPoint.getId().toString()));
-        return repo.save(foundPlotPoint);
+                current.getId().toString()));
+        return repo.save(current);
     }
 
     public PlotPointEntity delete(final UUID id) {
         PlotPointEntity deleted = getById(id);
         repo.deleteById(id);
+
+        List<PlotPointEntity> usersPP = getByUser(deleted.getUser());
+        for (PlotPointEntity entry : usersPP) {
+            if (entry.getPrecedingPlotPointId() != null && entry.getPrecedingPlotPointId() == id) {
+                PlotPointEntity ppToBeUpdated = new PlotPointEntity();
+                ppToBeUpdated.setId(entry.getId());
+                // Update to deleted preceding plot point
+                ppToBeUpdated.setPrecedingPlotPointId(deleted.getPrecedingPlotPointId());
+
+                update(ppToBeUpdated);
+            }
+        }
+
         LOGGER.info(String.format("Removed plot point %s by %s",
                 deleted.getId().toString(), deleted.getUser()));
         return deleted;
@@ -139,10 +152,13 @@ public class PlotPointService {
      * @param template
      */
     private void updateFoundWithValues(PlotPointEntity foundPlotPoint, PlotPointEntity template) {
+        // TODO whitelist, not blacklist. Return a new Object
         // For each parameter, if it is asking to be changed, change it.
         if (template.getSummary() != null && !template.getSummary().equals(""))
             foundPlotPoint.setSummary(template.getSummary());
         if (template.getDescription() != null && !template.getDescription().equals(""))
             foundPlotPoint.setDescription(template.getDescription());
+        if (template.getPrecedingPlotPointId() != null)
+            foundPlotPoint.setPrecedingPlotPointId(template.getPrecedingPlotPointId());
     }
 }
