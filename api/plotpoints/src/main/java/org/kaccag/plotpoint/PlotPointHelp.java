@@ -9,10 +9,10 @@ import java.util.List;
 public class PlotPointHelp {
     private final static String BASE_PATH = "/api/plotpoint";
 
-    private final List<Resource> messages;
+    private final List<Resource> endpoints;
 
     public PlotPointHelp() {
-        messages = Arrays.asList(
+        endpoints = Arrays.asList(
                 new Resource(
                         HttpMethod.POST,
                         MediaType.APPLICATION_JSON,
@@ -41,8 +41,8 @@ public class PlotPointHelp {
         );
     }
 
-    public List<Resource> getMessages() {
-        return messages;
+    public List<Resource> getEndpoints() {
+        return endpoints;
     }
 
     public class Resource {
