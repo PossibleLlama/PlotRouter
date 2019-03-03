@@ -1,0 +1,181 @@
+{
+	"info": {
+		"_postman_id": "01757ff3-72db-4380-b2e1-33926d5d7408",
+		"name": "Plot Router - Plot Points - Misc",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Help",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c0639199-6f4c-4a7a-a94b-5eb8ebb2caca",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is json\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+							"});",
+							"",
+							"pm.test(\"Replies have array of endpoints\", function() {",
+							"    let jsonData = pm.response.json();",
+							"    pm.expect(jsonData.endpoints);",
+							"    // Expect endpoints to be at least CRUD (length 4)",
+							"    pm.expect(jsonData.endpoints.length).to.be.above(4);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "OPTIONS",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{plotpoint}}/*",
+					"host": [
+						"{{plotpoint}}"
+					],
+					"path": [
+						"*"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Invalid Double Path",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c0639199-6f4c-4a7a-a94b-5eb8ebb2caca",
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is json\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+							"});",
+							"",
+							"pm.test(\"Not found\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.error).to.eql(\"404 NOT_FOUND\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{plotpoint}}/foo/bar",
+					"host": [
+						"{{plotpoint}}"
+					],
+					"path": [
+						"foo",
+						"bar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Invalid Method",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c0639199-6f4c-4a7a-a94b-5eb8ebb2caca",
+						"exec": [
+							"pm.test(\"Status code is 405\", function () {",
+							"    pm.response.to.have.status(405);",
+							"});",
+							"",
+							"pm.test(\"Content-length is zero\", function () {",
+							"    pm.response.to.have.header(\"Content-Length\");",
+							"    pm.expect(pm.response.headers.get(\"Content-Length\")).to.equal(\"0\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{plotpoint}}/foo",
+					"host": [
+						"{{plotpoint}}"
+					],
+					"path": [
+						"foo"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "c72a2ceb-27fd-4abb-bc80-e21fd2475226",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "75bd988e-d536-4d35-a034-8c4d689b70f8",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "f44e2d56-240d-4c14-96ad-7bd82d7f3e6d",
+			"key": "host",
+			"value": "http://localhost:8000",
+			"type": "string"
+		},
+		{
+			"id": "d2da1790-f7ed-44b2-925c-1fe78efd0fbd",
+			"key": "plotpoint",
+			"value": "{{host}}/api/plotpoint",
+			"type": "string"
+		}
+	]
+}

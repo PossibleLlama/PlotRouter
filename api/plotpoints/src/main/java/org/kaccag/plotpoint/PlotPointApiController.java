@@ -28,8 +28,9 @@ public class PlotPointApiController {
         this.service = service;
     }
 
-    @GetMapping(
-            value = BASE_PATH + "/help",
+    @RequestMapping(
+            method = RequestMethod.OPTIONS,
+            value = BASE_PATH + "/*",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<PlotPointHelp> getHelp() {
