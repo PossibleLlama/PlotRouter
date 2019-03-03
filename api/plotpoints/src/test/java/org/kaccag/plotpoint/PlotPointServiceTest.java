@@ -14,6 +14,7 @@ import static org.mockito.ArgumentMatchers.argThat;
 
 public class PlotPointServiceTest {
     private PlotPointService service;
+    PlotPointRepository mockRepo = Mockito.mock(PlotPointRepository.class);
 
     private final UUID EXISTING_ID = UUID.randomUUID();
     private final UUID MISSING_ID = UUID.randomUUID();
@@ -22,12 +23,8 @@ public class PlotPointServiceTest {
 
     @Before
     public void setup() {
-        PlotPointEntity plotPoint = new PlotPointEntity(
-                "user1", "summary1", "description1");
-        plotPoint.setId(EXISTING_ID);
-        PlotPointEntity plotPointWithPreceding = new PlotPointEntity(
-                "user1", "summary2", "description1");
-        plotPointWithPreceding.setId(SECOND_VALID_ID);
+        PlotPointEntity plotPoint = generatePlotPointWithDescription("summary1", EXISTING_ID);
+        PlotPointEntity plotPointWithPreceding = generatePlotPointWithDescription("summary2", SECOND_VALID_ID);
         plotPointWithPreceding.setPrecedingPlotPointId(EXISTING_ID);
 
         Optional<PlotPointEntity> foundPlotPoint = Optional.of(plotPoint);
@@ -42,7 +39,6 @@ public class PlotPointServiceTest {
         foundByUser.add(foundByUser2);
         foundByUser.add(new PlotPointEntity("user2", "summary3"));
 
-        PlotPointRepository mockRepo = Mockito.mock(PlotPointRepository.class);
         Mockito
                 .when(mockRepo.insert(plotPoint))
                 .thenReturn(plotPoint);
@@ -56,16 +52,14 @@ public class PlotPointServiceTest {
                 .when(mockRepo.findByUser("user2"))
                 .thenReturn(foundByUser);
         Mockito
-                .when(mockRepo.save(
-                        argThat(plotPointInstance -> plotPointInstance.getId() == EXISTING_ID)
-                ))
-                .thenReturn(plotPoint);
-        Mockito
                 .when(mockRepo.findById(EXISTING_ID))
                 .thenReturn(foundPlotPoint);
         Mockito
                 .when(mockRepo.findById(MISSING_ID))
                 .thenReturn(missingPlotPoint);
+        Mockito
+                .when(mockRepo.findById(SECOND_VALID_ID))
+                .thenReturn(Optional.of(plotPointWithPreceding));
         Mockito
                 .when(mockRepo.findById(VALID_ID_DEPENDENT_PREPP))
                 .thenReturn(Optional.of(foundByUser1));
@@ -270,6 +264,12 @@ public class PlotPointServiceTest {
         template.setId(EXISTING_ID);
         template.setUser("new user");
 
+        Mockito
+                .when(mockRepo.save(
+                        argThat(plotPointInstance -> plotPointInstance.getId() == EXISTING_ID)
+                ))
+                .thenReturn(generatePlotPointWithDescription("summary1", EXISTING_ID));
+
         PlotPointEntity returned = service.update(template);
 
         Assert.assertNotEquals(template.getUser(), returned.getUser());
@@ -280,6 +280,14 @@ public class PlotPointServiceTest {
         PlotPointEntity template = new PlotPointEntity();
         template.setId(EXISTING_ID);
         template.setSummary("new summary");
+
+        Mockito
+                .when(mockRepo.save(
+                        argThat(plotPointInstance ->
+                                plotPointInstance.getId() == EXISTING_ID &&
+                                        plotPointInstance.getSummary().equals("new summary"))
+                ))
+                .thenReturn(generatePlotPointWithDescription("new summary", EXISTING_ID));
 
         PlotPointEntity returned = service.update(template);
 
@@ -292,6 +300,12 @@ public class PlotPointServiceTest {
         template.setId(EXISTING_ID);
         template.setSummary(null);
 
+        Mockito
+                .when(mockRepo.save(
+                        argThat(plotPointInstance -> plotPointInstance.getId() == EXISTING_ID)
+                ))
+                .thenReturn(generatePlotPointWithDescription("summary1", EXISTING_ID));
+
         PlotPointEntity returned = service.update(template);
 
         Assert.assertNotEquals(template.getSummary(), returned.getSummary());
@@ -302,6 +316,12 @@ public class PlotPointServiceTest {
         PlotPointEntity template = new PlotPointEntity();
         template.setId(EXISTING_ID);
         template.setSummary("");
+
+        Mockito
+                .when(mockRepo.save(
+                        argThat(plotPointInstance -> plotPointInstance.getId() == EXISTING_ID)
+                ))
+                .thenReturn(generatePlotPointWithDescription("summary1", EXISTING_ID));
 
         PlotPointEntity returned = service.update(template);
 
@@ -314,20 +334,54 @@ public class PlotPointServiceTest {
         template.setId(EXISTING_ID);
         template.setDescription(null);
 
+        Mockito
+                .when(mockRepo.save(
+                        argThat(plotPointInstance -> plotPointInstance.getId() == EXISTING_ID)
+                ))
+                .thenReturn(generatePlotPointWithDescription("summary1", EXISTING_ID));
+
         PlotPointEntity returned = service.update(template);
 
         Assert.assertNotEquals(template.getDescription(), returned.getDescription());
     }
 
     @Test
-    public void updateEmptyDescriptionDoesNothingToValue() {
+    public void updateToEmptyDescriptionReturnsNull() {
         PlotPointEntity template = new PlotPointEntity();
         template.setId(EXISTING_ID);
         template.setDescription("");
 
+        PlotPointEntity mockedPP = generatePlotPointWithDescription("summary1", EXISTING_ID);
+        mockedPP.setDescription(null);
+
+        Mockito
+                .when(mockRepo.save(
+                        argThat(plotPointInstance ->
+                                plotPointInstance.getId() == EXISTING_ID &&
+                                        plotPointInstance.getDescription() == null)
+                ))
+                .thenReturn(mockedPP);
+
         PlotPointEntity returned = service.update(template);
 
-        Assert.assertNotEquals(template.getDescription(), returned.getDescription());
+        Assert.assertNull(returned.getDescription());
+    }
+
+    @Test
+    public void updateToNullPrePlotPoint() {
+        PlotPointEntity template = new PlotPointEntity();
+        template.setId(SECOND_VALID_ID);
+        template.setPrecedingPlotPointId(null);
+
+        Mockito
+                .when(mockRepo.save(
+                        argThat(plotPointInstance -> plotPointInstance.getId() == SECOND_VALID_ID)
+                ))
+                .thenReturn(template);
+
+        PlotPointEntity returned = service.update(template);
+
+        Assert.assertNull(returned.getPrecedingPlotPointId());
     }
 
     @Test
@@ -378,5 +432,12 @@ public class PlotPointServiceTest {
 
     private PlotPointEntity generatePlotPoint() {
         return new PlotPointEntity("user1", "summary1");
+    }
+
+    private PlotPointEntity generatePlotPointWithDescription(String summary, UUID id) {
+        PlotPointEntity plotPoint = new PlotPointEntity(
+                "user1", summary, "description1");
+        plotPoint.setId(id);
+        return plotPoint;
     }
 }

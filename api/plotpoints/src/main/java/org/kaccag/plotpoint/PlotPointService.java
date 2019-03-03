@@ -148,17 +148,27 @@ public class PlotPointService {
      * This excludes user, as this should not change, and
      * id as it was used to find the non template instance.
      *
-     * @param foundPlotPoint
+     * @param currentPlotPoint
      * @param template
      */
-    private void updateFoundWithValues(PlotPointEntity foundPlotPoint, PlotPointEntity template) {
+    private void updateFoundWithValues(PlotPointEntity currentPlotPoint, PlotPointEntity template) {
         // TODO whitelist, not blacklist. Return a new Object
         // For each parameter, if it is asking to be changed, change it.
         if (template.getSummary() != null && !template.getSummary().equals(""))
-            foundPlotPoint.setSummary(template.getSummary());
-        if (template.getDescription() != null && !template.getDescription().equals(""))
-            foundPlotPoint.setDescription(template.getDescription());
-        if (template.getPrecedingPlotPointId() != null)
-            foundPlotPoint.setPrecedingPlotPointId(template.getPrecedingPlotPointId());
+            currentPlotPoint.setSummary(template.getSummary());
+        if (currentPlotPoint.getDescription() != template.getDescription()) {
+            if (template.getDescription() != null) {
+                if (template.getDescription().equals(""))
+                    template.setDescription(null);
+                currentPlotPoint.setDescription(template.getDescription());
+            }
+        }
+        if (currentPlotPoint.getPrecedingPlotPointId() != null) {
+            if (!currentPlotPoint.getPrecedingPlotPointId().equals(template.getPrecedingPlotPointId())) {
+                if (template.getPrecedingPlotPointId() == null)
+                    currentPlotPoint.setPrecedingPlotPointId(null);
+                validatePrecedingPlotPoint(template, currentPlotPoint);
+            }
+        }
     }
 }
