@@ -59,7 +59,7 @@ public class PlotPointService {
 
         List<PlotPointEntity> usersPP = getByUser(deleted.getUser());
         for (PlotPointEntity entry : usersPP) {
-            if (entry.getPrecedingPlotPointId() != null && entry.getPrecedingPlotPointId() == id) {
+            if (entry.getPrecedingPlotPointId() != null && entry.getPrecedingPlotPointId().equals(id)) {
                 PlotPointEntity ppToBeUpdated = new PlotPointEntity();
                 ppToBeUpdated.setId(entry.getId());
                 // Update to deleted preceding plot point
@@ -126,7 +126,7 @@ public class PlotPointService {
         if (passedPlotPoint.getPrecedingPlotPointId() != null) {
             try {
                 PlotPointEntity preceding = getById(passedPlotPoint.getPrecedingPlotPointId());
-                if (preceding.getUser() != endPlotPoint.getUser())
+                if (!preceding.getUser().equals(endPlotPoint.getUser()))
                     throw new IllegalArgumentException(
                             "Provided preceding plot point is not by the same user");
                 endPlotPoint.setPrecedingPlotPointId(preceding.getId());
