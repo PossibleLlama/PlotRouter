@@ -20,6 +20,8 @@ public class PlotPointEntity {
 
     private String description;
 
+    private UUID precedingPlotPointId;
+
     // Empty constructor for spring to do its magic
     PlotPointEntity() {
     }
@@ -67,11 +69,19 @@ public class PlotPointEntity {
         this.description = description;
     }
 
+    public UUID getPrecedingPlotPointId() {
+        return precedingPlotPointId;
+    }
+
+    public void setPrecedingPlotPointId(UUID precedingPlotPointId) {
+        this.precedingPlotPointId = precedingPlotPointId;
+    }
+
     @Override
     public String toString() {
         return String.format(
-                "Plotpoint[id=%s, user=%s, summary=%s, description=%s]",
-                id, user, summary, description
+                "Plotpoint[id=%s, user=%s, summary=%s, description=%s, prePlotpointId=%s]",
+                id, user, summary, description, precedingPlotPointId
         );
     }
 }
