@@ -1,0 +1,882 @@
+{
+	"info": {
+		"_postman_id": "bd2c5243-ba9f-4209-b3e7-84611d256ed1",
+		"name": "Plot Router - Plot Points - Create",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Success Basic",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d36adbff-f3b9-409f-bb86-2b4f5edf62db",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is json\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+							"});",
+							"",
+							"pm.test(\"Has summary\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.summary).to.include(\"my-summary\");",
+							"});",
+							"",
+							"pm.test(\"Null description\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.description).to.eq(null);",
+							"});",
+							"",
+							"pm.test(\"Null pre pp\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.precedingPlotPointId).to.eq(null);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\": \"{{user}}\",\n\t\"summary\": \"{{summary}}{{$guid}}\"\n}"
+				},
+				"url": {
+					"raw": "{{plotpoint}}",
+					"host": [
+						"{{plotpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Success Description",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d36adbff-f3b9-409f-bb86-2b4f5edf62db",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is json\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+							"});",
+							"",
+							"pm.test(\"Has summary\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.summary).to.include(\"my-summary\");",
+							"});",
+							"",
+							"pm.test(\"Has description\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.description).to.eq(\"my description\");",
+							"});",
+							"",
+							"pm.test(\"Null pre pp\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.precedingPlotPointId).to.eq(null);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\": \"{{user}}\",\n\t\"summary\": \"{{summary}}{{$guid}}\",\n\t\"description\": \"my description\"\n}"
+				},
+				"url": {
+					"raw": "{{plotpoint}}",
+					"host": [
+						"{{plotpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Success PrePP",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d36adbff-f3b9-409f-bb86-2b4f5edf62db",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is json\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+							"});",
+							"",
+							"pm.test(\"Has summary\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.summary).to.include(\"my-summary\");",
+							"});",
+							"",
+							"pm.test(\"Null description\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.description).to.eq(null);",
+							"});",
+							"",
+							"pm.test(\"Has pre pp\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.precedingPlotPointId).to.eq(pm.globals.get(\"id\"));",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "fd6e5322-97c3-48cc-95b6-50995bb3376c",
+						"exec": [
+							"var randSummary = \"a\" + Math.random().toString(36).substring(7);",
+							"",
+							"pm.sendRequest({",
+							"    url: pm.variables.get(\"plotpoint\"),",
+							"    method: \"POST\",",
+							"    header: \"Content-Type:application/json\",",
+							"    body: {",
+							"        mode: \"raw\",",
+							"        raw: JSON.stringify({",
+							"            \"user\": pm.variables.get(\"user\"),",
+							"\t        \"summary\": randSummary",
+							"        })",
+							"    }",
+							"    }, function (err, response) {",
+							"    pm.globals.set(\"id\", response.json().id);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\": \"{{user}}\",\n\t\"summary\": \"{{summary}}{{$guid}}\",\n\t\"precedingPlotPointId\": \"{{id}}\"\n}"
+				},
+				"url": {
+					"raw": "{{plotpoint}}",
+					"host": [
+						"{{plotpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Success Full Object",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d36adbff-f3b9-409f-bb86-2b4f5edf62db",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is json\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+							"});",
+							"",
+							"pm.test(\"Has summary\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.summary).to.include(\"my-summary\");",
+							"});",
+							"",
+							"pm.test(\"Has description\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.description).to.eq(\"full object\");",
+							"});",
+							"",
+							"pm.test(\"Has pre pp\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.precedingPlotPointId).to.eq(pm.globals.get(\"id\"));",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "fd6e5322-97c3-48cc-95b6-50995bb3376c",
+						"exec": [
+							"var randSummary = \"a\" + Math.random().toString(36).substring(7);",
+							"",
+							"pm.sendRequest({",
+							"    url: pm.variables.get(\"plotpoint\"),",
+							"    method: \"POST\",",
+							"    header: \"Content-Type:application/json\",",
+							"    body: {",
+							"        mode: \"raw\",",
+							"        raw: JSON.stringify({",
+							"            \"user\": pm.variables.get(\"user\"),",
+							"\t        \"summary\": randSummary",
+							"        })",
+							"    }",
+							"    }, function (err, response) {",
+							"    pm.globals.set(\"id\", response.json().id);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\": \"{{user}}\",\n\t\"summary\": \"{{summary}}{{$guid}}\",\n\t\"description\": \"full object\",\n\t\"precedingPlotPointId\": \"{{id}}\"\n}"
+				},
+				"url": {
+					"raw": "{{plotpoint}}",
+					"host": [
+						"{{plotpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Success Empty Description",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d36adbff-f3b9-409f-bb86-2b4f5edf62db",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is json\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+							"});",
+							"",
+							"pm.test(\"Has summary\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.summary).to.include(\"my-summary\");",
+							"});",
+							"",
+							"pm.test(\"Null description\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.description).to.eq(null);",
+							"});",
+							"",
+							"pm.test(\"Null pre pp\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.precedingPlotPointId).to.eq(null);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\": \"{{user}}\",\n\t\"summary\": \"{{summary}}{{$guid}}\",\n\t\"description\": \"\"\n}"
+				},
+				"url": {
+					"raw": "{{plotpoint}}",
+					"host": [
+						"{{plotpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Success Empty PrePP",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d36adbff-f3b9-409f-bb86-2b4f5edf62db",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is json\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+							"});",
+							"",
+							"pm.test(\"Has summary\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.summary).to.include(\"my-summary\");",
+							"});",
+							"",
+							"pm.test(\"Null description\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.description).to.eq(null);",
+							"});",
+							"",
+							"pm.test(\"Null pre pp\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.precedingPlotPointId).to.eq(null);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\": \"{{user}}\",\n\t\"summary\": \"{{summary}}{{$guid}}\",\n\t\"precedingPlotPointId\": \"\"\n}"
+				},
+				"url": {
+					"raw": "{{plotpoint}}",
+					"host": [
+						"{{plotpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fail Missing User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d36adbff-f3b9-409f-bb86-2b4f5edf62db",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is json\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+							"});",
+							"",
+							"pm.test(\"Has status\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.include(\"BAD_REQUEST\");",
+							"});",
+							"",
+							"pm.test(\"Has error\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.error).to.eq(\"400 BAD_REQUEST\");",
+							"});",
+							"",
+							"pm.test(\"Has message\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.include(\"object is malformed\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"summary\": \"{{summary}}{{$guid}}\"\n}"
+				},
+				"url": {
+					"raw": "{{plotpoint}}",
+					"host": [
+						"{{plotpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fail User Serialization",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d36adbff-f3b9-409f-bb86-2b4f5edf62db",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Content-Length is 0\", function () {",
+							"    pm.response.to.have.header(\"Content-Length\");",
+							"    pm.expect(pm.response.headers.get(\"Content-Length\")).to.eq(\"0\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\": [\"{{user}}\"],\n\t\"summary\": \"{{summary}}{{$guid}}\"\n}"
+				},
+				"url": {
+					"raw": "{{plotpoint}}",
+					"host": [
+						"{{plotpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fail Duplicate Summary",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d36adbff-f3b9-409f-bb86-2b4f5edf62db",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is json\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+							"});",
+							"",
+							"pm.test(\"Has status\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.include(\"BAD_REQUEST\");",
+							"});",
+							"",
+							"pm.test(\"Has error\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.error).to.eq(\"400 BAD_REQUEST\");",
+							"});",
+							"",
+							"pm.test(\"Has message\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.include(\"already exists\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "182958a9-9851-4dff-8531-31c572572e70",
+						"exec": [
+							"pm.sendRequest({",
+							"    url: pm.variables.get(\"plotpoint\"),",
+							"    method: \"POST\",",
+							"    header: \"Content-Type:application/json\",",
+							"    body: {",
+							"        mode: \"raw\",",
+							"        raw: JSON.stringify({",
+							"            \"user\": pm.variables.get(\"user\"),",
+							"\t        \"summary\": pm.variables.get(\"summary\")",
+							"        })",
+							"    }",
+							"    }, function (err, response) {});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\": \"{{user}}\",\n\t\"summary\": \"{{summary}}\"\n}"
+				},
+				"url": {
+					"raw": "{{plotpoint}}",
+					"host": [
+						"{{plotpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fail Missing Summary",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d36adbff-f3b9-409f-bb86-2b4f5edf62db",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is json\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+							"});",
+							"",
+							"pm.test(\"Has status\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.include(\"BAD_REQUEST\");",
+							"});",
+							"",
+							"pm.test(\"Has error\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.error).to.eq(\"400 BAD_REQUEST\");",
+							"});",
+							"",
+							"pm.test(\"Has message\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.include(\"object is malformed\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\": \"{{user}}\"\n}"
+				},
+				"url": {
+					"raw": "{{plotpoint}}",
+					"host": [
+						"{{plotpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fail Summary Serialization",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d36adbff-f3b9-409f-bb86-2b4f5edf62db",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Content-Length is 0\", function () {",
+							"    pm.response.to.have.header(\"Content-Length\");",
+							"    pm.expect(pm.response.headers.get(\"Content-Length\")).to.eq(\"0\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\": \"{{user}}\",\n\t\"summary\": [\"{{summary}}{{$guid}}\"]\n}"
+				},
+				"url": {
+					"raw": "{{plotpoint}}",
+					"host": [
+						"{{plotpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fail PrePP from another User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d36adbff-f3b9-409f-bb86-2b4f5edf62db",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is json\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+							"});",
+							"",
+							"pm.test(\"Has status\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.include(\"BAD_REQUEST\");",
+							"});",
+							"",
+							"pm.test(\"Has error\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.error).to.eq(\"400 BAD_REQUEST\");",
+							"});",
+							"",
+							"pm.test(\"Has message\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.include(\"preceding plot point is not by the same user\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "fd6e5322-97c3-48cc-95b6-50995bb3376c",
+						"exec": [
+							"var randSummary = \"a\" + Math.random().toString(36).substring(7);",
+							"",
+							"pm.sendRequest({",
+							"    url: pm.variables.get(\"plotpoint\"),",
+							"    method: \"POST\",",
+							"    header: \"Content-Type:application/json\",",
+							"    body: {",
+							"        mode: \"raw\",",
+							"        raw: JSON.stringify({",
+							"            \"user\": pm.variables.get(\"user\"),",
+							"\t        \"summary\": randSummary",
+							"        })",
+							"    }",
+							"    }, function (err, response) {",
+							"    pm.globals.set(\"id\", response.json().id);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\": \"{{user}}1\",\n\t\"summary\": \"{{summary}}{{$guid}}\",\n\t\"precedingPlotPointId\": \"{{id}}\"\n}"
+				},
+				"url": {
+					"raw": "{{plotpoint}}",
+					"host": [
+						"{{plotpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fail PrePP invalid PrePP",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d36adbff-f3b9-409f-bb86-2b4f5edf62db",
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is json\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+							"});",
+							"",
+							"pm.test(\"Has status\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.include(\"NOT_FOUND\");",
+							"});",
+							"",
+							"pm.test(\"Has error\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.error).to.eq(\"404 NOT_FOUND\");",
+							"});",
+							"",
+							"pm.test(\"Has message\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.include(\"preceding plot point does not exist\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "fd6e5322-97c3-48cc-95b6-50995bb3376c",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\": \"{{user}}\",\n\t\"summary\": \"{{summary}}{{$guid}}\",\n\t\"precedingPlotPointId\": \"{{$guid}}\"\n}"
+				},
+				"url": {
+					"raw": "{{plotpoint}}",
+					"host": [
+						"{{plotpoint}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "905a822b-5b0d-413f-ba46-70e1ded67f82",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "c6ecee6a-afc0-4af4-8052-d302612f533b",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "c0092941-caa8-4466-bd17-275892cd0bfd",
+			"key": "plotpoint",
+			"value": "http://localhost:8000/api/plotpoint",
+			"type": "string"
+		}
+	]
+}
