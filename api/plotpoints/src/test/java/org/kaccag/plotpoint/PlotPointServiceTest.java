@@ -385,6 +385,24 @@ public class PlotPointServiceTest {
     }
 
     @Test
+    public void updateFromNullPrePlotPoint() {
+        PlotPointEntity template = new PlotPointEntity();
+        template.setId(EXISTING_ID);
+        template.setPrecedingPlotPointId(SECOND_VALID_ID);
+
+        Mockito
+                .when(mockRepo.save(
+                        argThat(plotPointInstance -> plotPointInstance.getId() == EXISTING_ID &&
+                                plotPointInstance.getPrecedingPlotPointId() == SECOND_VALID_ID)
+                ))
+                .thenReturn(template);
+
+        PlotPointEntity returned = service.update(template);
+
+        Assert.assertEquals(SECOND_VALID_ID, returned.getPrecedingPlotPointId());
+    }
+
+    @Test
     public void deleteValidId() {
         PlotPointEntity returned = service.delete(EXISTING_ID);
 
