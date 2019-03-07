@@ -163,12 +163,18 @@ public class PlotPointService {
                 currentPlotPoint.setDescription(template.getDescription());
             }
         }
-        if (currentPlotPoint.getPrecedingPlotPointId() != null) {
-            if (!currentPlotPoint.getPrecedingPlotPointId().equals(template.getPrecedingPlotPointId())) {
-                if (template.getPrecedingPlotPointId() == null)
-                    currentPlotPoint.setPrecedingPlotPointId(null);
-                validatePrecedingPlotPoint(template, currentPlotPoint);
+        if (currentPlotPoint.getPrecedingPlotPointId() != null
+                || template.getPrecedingPlotPointId() != null) {
+            try {
+                if (!currentPlotPoint.getPrecedingPlotPointId().equals(template.getPrecedingPlotPointId()))
+                    if (template.getPrecedingPlotPointId() == null)
+                        currentPlotPoint.setPrecedingPlotPointId(null);
+            } catch (NullPointerException e) {
+                // We know that either current or template is not null, and one is.
+                // If null pointer is thrown, current must be null.
+                currentPlotPoint.setPrecedingPlotPointId(template.getPrecedingPlotPointId());
             }
+            validatePrecedingPlotPoint(template, currentPlotPoint);
         }
     }
 }
