@@ -53,7 +53,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"user\": \"{{user}}\",\n\t\"summary\": \"{{summary}}{{$guid}}\"\n}"
+					"raw": "{\n\t\"user\": \"{{user}}\",\n\t\"summary\": \"my-summary {{$guid}}\"\n}"
 				},
 				"url": {
 					"raw": "{{plotpoint}}",
@@ -112,7 +112,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"user\": \"{{user}}\",\n\t\"summary\": \"{{summary}}{{$guid}}\",\n\t\"description\": \"my description\"\n}"
+					"raw": "{\n\t\"user\": \"{{user}}\",\n\t\"summary\": \"my-summary {{$guid}}\",\n\t\"description\": \"my description\"\n}"
 				},
 				"url": {
 					"raw": "{{plotpoint}}",
@@ -152,7 +152,7 @@
 							"",
 							"pm.test(\"Has pre pp\", function () {",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.precedingPlotPointId).to.eq(pm.globals.get(\"id\"));",
+							"    pm.expect(jsonData.precedingPlotPointId).to.eq(pm.globals.get(\"prePP\"));",
 							"});",
 							""
 						],
@@ -178,7 +178,7 @@
 							"        })",
 							"    }",
 							"    }, function (err, response) {",
-							"    pm.globals.set(\"id\", response.json().id);",
+							"    pm.globals.set(\"prePP\", response.json().id);",
 							"});"
 						],
 						"type": "text/javascript"
@@ -196,7 +196,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"user\": \"{{user}}\",\n\t\"summary\": \"{{summary}}{{$guid}}\",\n\t\"precedingPlotPointId\": \"{{id}}\"\n}"
+					"raw": "{\n\t\"user\": \"{{user}}\",\n\t\"summary\": \"my-summary {{$guid}}\",\n\t\"precedingPlotPointId\": \"{{prePP}}\"\n}"
 				},
 				"url": {
 					"raw": "{{plotpoint}}",
@@ -280,7 +280,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"user\": \"{{user}}\",\n\t\"summary\": \"{{summary}}{{$guid}}\",\n\t\"description\": \"full object\",\n\t\"precedingPlotPointId\": \"{{id}}\"\n}"
+					"raw": "{\n\t\"user\": \"{{user}}\",\n\t\"summary\": \"my-summary {{$guid}}\",\n\t\"description\": \"full object\",\n\t\"precedingPlotPointId\": \"{{id}}\"\n}"
 				},
 				"url": {
 					"raw": "{{plotpoint}}",
@@ -339,7 +339,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"user\": \"{{user}}\",\n\t\"summary\": \"{{summary}}{{$guid}}\",\n\t\"description\": \"\"\n}"
+					"raw": "{\n\t\"user\": \"{{user}}\",\n\t\"summary\": \"my-summary {{$guid}}\",\n\t\"description\": \"\"\n}"
 				},
 				"url": {
 					"raw": "{{plotpoint}}",
@@ -398,7 +398,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"user\": \"{{user}}\",\n\t\"summary\": \"{{summary}}{{$guid}}\",\n\t\"precedingPlotPointId\": \"\"\n}"
+					"raw": "{\n\t\"user\": \"{{user}}\",\n\t\"summary\": \"my-summary {{$guid}}\",\n\t\"precedingPlotPointId\": \"\"\n}"
 				},
 				"url": {
 					"raw": "{{plotpoint}}",
@@ -873,7 +873,7 @@
 	],
 	"variable": [
 		{
-			"id": "c0092941-caa8-4466-bd17-275892cd0bfd",
+			"id": "ab75ee9f-541d-4aa1-84bc-3fa277a8822e",
 			"key": "plotpoint",
 			"value": "http://localhost:8000/api/plotpoint",
 			"type": "string"

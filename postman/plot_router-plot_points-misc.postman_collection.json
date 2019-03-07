@@ -166,15 +166,9 @@
 	],
 	"variable": [
 		{
-			"id": "f44e2d56-240d-4c14-96ad-7bd82d7f3e6d",
-			"key": "host",
-			"value": "http://localhost:8000",
-			"type": "string"
-		},
-		{
-			"id": "d2da1790-f7ed-44b2-925c-1fe78efd0fbd",
+			"id": "6047f388-45d5-4ab6-ba60-659160afaaf6",
 			"key": "plotpoint",
-			"value": "{{host}}/api/plotpoint",
+			"value": "http://localhost:8000/api/plotpoint",
 			"type": "string"
 		}
 	]
