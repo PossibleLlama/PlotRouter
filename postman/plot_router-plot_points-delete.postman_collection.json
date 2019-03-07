@@ -483,7 +483,7 @@
 	],
 	"variable": [
 		{
-			"id": "f1649c56-cdb8-49c6-a7c3-06947d1dd4b9",
+			"id": "40084358-1b13-4ee9-82b4-e547ce6820e0",
 			"key": "plotpoint",
 			"value": "http://localhost:8000/api/plotpoint",
 			"type": "string"
