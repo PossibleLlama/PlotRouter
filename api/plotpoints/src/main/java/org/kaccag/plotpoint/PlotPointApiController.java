@@ -63,7 +63,6 @@ public class PlotPointApiController {
 
     @DeleteMapping(
             value = BASE_PATH + "/id/{id}",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<PlotPointEntity> delete(@PathVariable final UUID id) {
