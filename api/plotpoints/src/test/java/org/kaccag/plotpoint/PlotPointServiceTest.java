@@ -329,20 +329,21 @@ public class PlotPointServiceTest {
     }
 
     @Test
-    public void updateNullDescriptionDoesNothingToValue() {
+    public void updateNullDescription() {
         PlotPointEntity template = new PlotPointEntity();
         template.setId(EXISTING_ID);
         template.setDescription(null);
 
         Mockito
                 .when(mockRepo.save(
-                        argThat(plotPointInstance -> plotPointInstance.getId() == EXISTING_ID)
+                        argThat(plotPointInstance -> plotPointInstance.getId() == EXISTING_ID
+                                && plotPointInstance.getDescription() == null)
                 ))
-                .thenReturn(generatePlotPointWithDescription("summary1", EXISTING_ID));
+                .thenReturn(template);
 
         PlotPointEntity returned = service.update(template);
 
-        Assert.assertNotEquals(template.getDescription(), returned.getDescription());
+        Assert.assertNull(returned.getDescription());
     }
 
     @Test

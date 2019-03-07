@@ -157,7 +157,9 @@ public class PlotPointService {
         if (template.getSummary() != null && !template.getSummary().equals(""))
             currentPlotPoint.setSummary(template.getSummary());
         if (currentPlotPoint.getDescription() != template.getDescription()) {
-            if (template.getDescription() != null) {
+            if (template.getDescription() == null)
+                currentPlotPoint.setDescription(null);
+            else {
                 if (template.getDescription().equals(""))
                     template.setDescription(null);
                 currentPlotPoint.setDescription(template.getDescription());
