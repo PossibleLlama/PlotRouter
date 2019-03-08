@@ -10,16 +10,17 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 
 public class PlotPointServiceTest {
-    private PlotPointService service;
-    PlotPointRepository mockRepo = Mockito.mock(PlotPointRepository.class);
-
     private final UUID EXISTING_ID = UUID.randomUUID();
     private final UUID MISSING_ID = UUID.randomUUID();
     private final UUID SECOND_VALID_ID = UUID.randomUUID();
     private final UUID VALID_ID_DEPENDENT_PREPP = UUID.randomUUID();
+
+    PlotPointRepository mockRepo = Mockito.mock(PlotPointRepository.class);
+    private PlotPointService service;
 
     @Before
     public void setup() {
@@ -76,6 +77,23 @@ public class PlotPointServiceTest {
         Assert.assertEquals("user1", returned.getUser());
         Assert.assertEquals("summary1", returned.getSummary());
         Assert.assertNull(returned.getDescription());
+    }
+
+    @Test
+    public void insertNullId() {
+        PlotPointEntity template = new PlotPointEntity();
+        template.setUser("user1");
+        template.setSummary("summary1");
+
+        Mockito
+                .when(mockRepo.insert(
+                        any(PlotPointEntity.class)
+                ))
+                .thenReturn(generatePlotPoint());
+
+        PlotPointEntity returned = service.insert(template);
+
+        Assert.assertNotNull(returned.getId());
     }
 
     @Test
