@@ -235,6 +235,22 @@ public class PlotPointServiceTest {
     }
 
     @Test
+    public void insertWithSameIdAndPrePlotPointId() {
+        PlotPointEntity plotPoint = new PlotPointEntity(
+                "user1", "summary2", "description1"
+        );
+        plotPoint.setId(EXISTING_ID);
+        plotPoint.setPrecedingPlotPointId(EXISTING_ID);
+
+        try {
+            service.insert(plotPoint);
+            Assert.fail("Should throw error if provided id and pre plot point id are the same");
+        } catch (IllegalArgumentException e) {
+            // Expected exception thrown.
+        }
+    }
+
+    @Test
     public void updateWithNullTemplate() {
         try {
             service.update(null);
@@ -401,6 +417,20 @@ public class PlotPointServiceTest {
         PlotPointEntity returned = service.update(template);
 
         Assert.assertEquals(SECOND_VALID_ID, returned.getPrecedingPlotPointId());
+    }
+
+    @Test
+    public void updatePrePlotPointSameAsId() {
+        PlotPointEntity template = new PlotPointEntity();
+        template.setId(EXISTING_ID);
+        template.setPrecedingPlotPointId(EXISTING_ID);
+
+        try {
+            service.update(template);
+            Assert.fail("Cannot have same id for object and in prePP field");
+        } catch (IllegalArgumentException e) {
+            // Expected exception thrown.
+        }
     }
 
     @Test

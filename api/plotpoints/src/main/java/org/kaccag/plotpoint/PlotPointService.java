@@ -93,11 +93,11 @@ public class PlotPointService {
 
     private boolean isPlotPointFunctionallyValid(PlotPointEntity plotPoint) {
         if (plotPoint.getUser() == null || plotPoint.getUser().equals("")) {
-            LOGGER.warning("Invalid user provided");
+            LOGGER.warning(String.format("Invalid user '%s' provided", plotPoint.getUser()));
             return false;
         }
         if (plotPoint.getSummary() == null || plotPoint.getSummary().equals("")) {
-            LOGGER.warning("Invalid summary provided");
+            LOGGER.warning(String.format("Invalid summary '%s' provided", plotPoint.getSummary()));
             return false;
         }
         if (plotPoint.getDescription() != null && plotPoint.getDescription().equals(""))
@@ -124,6 +124,10 @@ public class PlotPointService {
 
     private void validatePrecedingPlotPoint(PlotPointEntity passedPlotPoint, PlotPointEntity endPlotPoint) {
         if (passedPlotPoint.getPrecedingPlotPointId() != null) {
+            if (passedPlotPoint.getId() == passedPlotPoint.getPrecedingPlotPointId()) {
+                throw new IllegalArgumentException(
+                        "Plot point cannot be preceded by itself");
+            }
             try {
                 PlotPointEntity preceding = getById(passedPlotPoint.getPrecedingPlotPointId());
                 if (!preceding.getUser().equals(endPlotPoint.getUser()))
