@@ -920,8 +920,8 @@
 					"script": {
 						"id": "d36adbff-f3b9-409f-bb86-2b4f5edf62db",
 						"exec": [
-							"pm.test(\"Status code is 404\", function () {",
-							"    pm.response.to.have.status(404);",
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
 							"});",
 							"",
 							"pm.test(\"Content-Type is json\", function () {",
@@ -931,17 +931,17 @@
 							"",
 							"pm.test(\"Has status\", function () {",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.status).to.include(\"NOT_FOUND\");",
+							"    pm.expect(jsonData.status).to.include(\"BAD_REQUEST\");",
 							"});",
 							"",
 							"pm.test(\"Has error\", function () {",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.error).to.eq(\"404 NOT_FOUND\");",
+							"    pm.expect(jsonData.error).to.eq(\"400 BAD_REQUEST\");",
 							"});",
 							"",
 							"pm.test(\"Has message\", function () {",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.message).to.include(\"preceding plot point does not exist\");",
+							"    pm.expect(jsonData.message).to.include(\"cannot be preceded by itself\");",
 							"});",
 							""
 						],
@@ -996,7 +996,7 @@
 	],
 	"variable": [
 		{
-			"id": "55e9cb6a-5f4d-4354-85c9-f7e5bceba9ae",
+			"id": "e3164500-4b13-4f9c-94e9-23aabd6db2c1",
 			"key": "plotpoint",
 			"value": "http://localhost:8000/api/plotpoint",
 			"type": "string"
