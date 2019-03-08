@@ -124,9 +124,14 @@ public class PlotPointService {
 
     private void validatePrecedingPlotPoint(PlotPointEntity passedPlotPoint, PlotPointEntity endPlotPoint) {
         if (passedPlotPoint.getPrecedingPlotPointId() != null) {
-            if (passedPlotPoint.getId() == passedPlotPoint.getPrecedingPlotPointId()) {
-                throw new IllegalArgumentException(
-                        "Plot point cannot be preceded by itself");
+            try {
+                if (passedPlotPoint.getId().equals(passedPlotPoint.getPrecedingPlotPointId()))
+                    throw new IllegalArgumentException(
+                            "Plot point cannot be preceded by itself");
+            } catch (NullPointerException e) {
+                if (endPlotPoint.getId().equals(passedPlotPoint.getPrecedingPlotPointId()))
+                    throw new IllegalArgumentException(
+                            "Plot point cannot be preceded by itself");
             }
             try {
                 PlotPointEntity preceding = getById(passedPlotPoint.getPrecedingPlotPointId());
