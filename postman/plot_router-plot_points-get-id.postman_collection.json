@@ -1,0 +1,252 @@
+{
+	"info": {
+		"_postman_id": "c69eb748-782a-41a6-af13-66ef9f6789e1",
+		"name": "Plot Router - Plot Points - Get Id",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Success Valid Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c0639199-6f4c-4a7a-a94b-5eb8ebb2caca",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is json\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+							"});",
+							"",
+							"pm.test(\"Has correct id\", function() {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.id).to.eq(pm.globals.get(\"id\"));",
+							"});",
+							"",
+							"pm.test(\"Has correct summary\", function() {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.summary).to.eq(pm.globals.get(\"summary\"));",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "5c1d6490-3ea8-4050-8aa9-633db384ac3a",
+						"exec": [
+							"var randSummary = \"a\" + Math.random().toString(36).substring(7);",
+							"",
+							"pm.sendRequest({",
+							"    url: pm.variables.get(\"plotpoint\"),",
+							"    method: \"POST\",",
+							"    header: \"Content-Type:application/json\",",
+							"    body: {",
+							"        mode: \"raw\",",
+							"        raw: JSON.stringify({",
+							"            \"user\": pm.variables.get(\"user\"),",
+							"\t        \"summary\": randSummary",
+							"        })",
+							"    }",
+							"    }, function (err, response) {",
+							"    pm.globals.set(\"id\", response.json().id);",
+							"    pm.globals.set(\"summary\", response.json().summary);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{plotpoint}}/id/{{id}}",
+					"host": [
+						"{{plotpoint}}"
+					],
+					"path": [
+						"id",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Failure Invalid Type Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c0639199-6f4c-4a7a-a94b-5eb8ebb2caca",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is json\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+							"});",
+							"",
+							"pm.test(\"Has status\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.include(\"BAD_REQUEST\");",
+							"});",
+							"",
+							"pm.test(\"Has error\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.error).to.eq(\"400 BAD_REQUEST\");",
+							"});",
+							"",
+							"pm.test(\"Has message\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message.toLowerCase()).to.include(\"uuid\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "5c1d6490-3ea8-4050-8aa9-633db384ac3a",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{plotpoint}}/id/{{$timestamp}}",
+					"host": [
+						"{{plotpoint}}"
+					],
+					"path": [
+						"id",
+						"{{$timestamp}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Failure Invalid Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c0639199-6f4c-4a7a-a94b-5eb8ebb2caca",
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is json\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+							"});",
+							"",
+							"pm.test(\"Has status\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.include(\"NOT_FOUND\");",
+							"});",
+							"",
+							"pm.test(\"Has error\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.error).to.eq(\"404 NOT_FOUND\");",
+							"});",
+							"",
+							"pm.test(\"Has message\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.include(\"No item of id\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "5c1d6490-3ea8-4050-8aa9-633db384ac3a",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{plotpoint}}/id/{{$guid}}",
+					"host": [
+						"{{plotpoint}}"
+					],
+					"path": [
+						"id",
+						"{{$guid}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "c72a2ceb-27fd-4abb-bc80-e21fd2475226",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "75bd988e-d536-4d35-a034-8c4d689b70f8",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "0137d431-0c2c-408a-9528-75e72e1ccfde",
+			"key": "plotpoint",
+			"value": "http://localhost:8000/api/plotpoint",
+			"type": "string"
+		}
+	]
+}
