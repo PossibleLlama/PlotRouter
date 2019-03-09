@@ -12,5 +12,5 @@ Master build status
 Currently only used to change the default port that the application is created at.<br/>
 
 ### Database
-Holds mongo connection details. This is done at startup.<br\>Accepts uri with all details filled in, or each field on another line. These two methods cannot be used at the same time.
+Holds mongo connection details. This is done at startup.<br/>Accepts uri with all details filled in, or each field on another line. These two methods cannot be used at the same time.
 
