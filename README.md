@@ -1,12 +1,11 @@
 # PlotRouter
 
+## Overview
 Master build status
 <br/>
 [![Build Status](https://semaphoreci.com/api/v1/possiblellama/plotrouter/branches/master/shields_badge.svg)](https://semaphoreci.com/possiblellama/plotrouter)
 
-Trello board
-<br/>
-[Trello](https://trello.com/b/mEtQHsTR/plot-router)
+[Trello board](https://trello.com/b/mEtQHsTR/plot-router)
 
 ## Properties files
 ### Application
