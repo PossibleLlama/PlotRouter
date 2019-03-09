@@ -6,7 +6,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
 
@@ -99,9 +98,9 @@ public class PlotPointApiController {
             value = BASE_PATH + "/user/{user}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<List<PlotPointEntity>> findAllByUser(@PathVariable final String user) {
+    public ResponseEntity<DisplayedPlotPointsList> findAllByUser(@PathVariable final String user) {
         LOGGER.info(String.format("Request received to get all plot point by user '%s.'", user));
-        List<PlotPointEntity> allByUser = service.getByUser(user);
+        DisplayedPlotPointsList allByUser = new DisplayedPlotPointsList(service.getByUser(user));
         return new ResponseEntity<>(allByUser, HttpStatus.OK);
     }
 
@@ -109,9 +108,9 @@ public class PlotPointApiController {
             value = BASE_PATH,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<List<PlotPointEntity>> findAll() {
+    public ResponseEntity<DisplayedPlotPointsList> findAll() {
         LOGGER.info("Request received to get all plot points");
-        List<PlotPointEntity> allPlotPoints = service.getAll();
+        DisplayedPlotPointsList allPlotPoints = new DisplayedPlotPointsList(service.getAll());
         return new ResponseEntity<>(allPlotPoints, HttpStatus.OK);
     }
 }

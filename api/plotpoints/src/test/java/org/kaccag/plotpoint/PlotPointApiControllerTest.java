@@ -7,7 +7,6 @@ import org.mockito.Mockito;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -69,7 +68,7 @@ public class PlotPointApiControllerTest {
 
     @Test
     public void findAllUserStatusCode() {
-        ResponseEntity<List<PlotPointEntity>> returned =
+        ResponseEntity<DisplayedPlotPointsList> returned =
                 controller.findAllByUser("user");
 
         Assert.assertEquals(HttpStatus.OK, returned.getStatusCode());
@@ -77,7 +76,7 @@ public class PlotPointApiControllerTest {
 
     @Test
     public void findAllStatusCode() {
-        ResponseEntity<List<PlotPointEntity>> returned =
+        ResponseEntity<DisplayedPlotPointsList> returned =
                 controller.findAll();
 
         Assert.assertEquals(HttpStatus.OK, returned.getStatusCode());
