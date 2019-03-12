@@ -1,17 +1,17 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+    <BubbleMenu msg="some circle" :style="{width: '80px', height: '80px'}"></BubbleMenu>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from './components/HelloWorld.vue';
+import BubbleMenu from './components/BubbleMenu.vue';
 
 @Component({
   components: {
-    HelloWorld,
+    BubbleMenu,
   },
 })
 export default class App extends Vue {}
