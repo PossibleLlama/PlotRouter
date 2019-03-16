@@ -1,17 +1,32 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <BubbleMenu msg="some circle" :style="{width: '80px', height: '80px'}"></BubbleMenu>
+    <Header></Header>
+
+    <div class="main">
+      <div class="page">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-12">
+              <img alt="Vue logo" src="./assets/logo.png">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <Footer creator="PossibleLlama"></Footer>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import BubbleMenu from './components/BubbleMenu.vue';
+import Footer from './components/Footer.vue';
+import Header from './components/Header.vue';
 
 @Component({
   components: {
-    BubbleMenu,
+    Footer,
+    Header,
   },
 })
 export default class App extends Vue {}
@@ -20,10 +35,11 @@ export default class App extends Vue {}
 <style>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  color: rgb(12, 22, 9);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 0px;
+  background-color: #e3f1e3;
+  box-sizing: border-box;
 }
 </style>
