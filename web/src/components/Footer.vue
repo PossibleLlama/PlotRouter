@@ -1,6 +1,6 @@
 <template>
   <footer>
-    <div class="content container-fluid">
+    <div class="content container">
       <div class="row">
         <div class="col-sm-8">
           <!-- TODO create footer -->
@@ -22,12 +22,7 @@ export default class App extends Vue {}
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+p {
+  font-size: 1rem;
 }
 </style>
