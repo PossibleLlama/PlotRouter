@@ -4,34 +4,11 @@
       <div class="container">
 
         <div class="navbar-header">
-					<span class="home">
-            <a class="navbar-brand" href="#"><h1>Plot Router</h1></a>
-					</span>
 
-					<button role="menubar" type="button" class="navbar-toggle collapsed"
-					data-toggle="collapse" data-target="#collapseMenu"
-					aria-expanded="false" style="inline">
-						<span class="sr-only">Toggle Navigation Bar</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
+					<a href="#"><h1>Plot Router</h1></a>
+					<a href="#"><h2>Events</h2></a>
 					
 				</div> <!-- Navbar Header -->
-
-				<div class="collapse navbar-collapse" id="collapseMenu">
-					<ul role="menubar" class="nav navbar-nav">
-						<li>
-							<a href="#">Events</a>
-						</li>
-						<li>
-							<a href="#">B</a>
-						</li>
-						<li>
-							<a href="#">C</a>
-						</li>
-					</ul>
-          </div> <!-- Collapsable Navbar -->
 
       </div> <!-- container -->
     </nav>
@@ -51,5 +28,19 @@ export default class App extends Vue {}
 <style>
 a {
 	color: inherit;
+	display: inline-block;
+	margin-right: 1rem;
+	margin-left: 1rem;
+}
+a:hover {
+	color: rgb(62, 72, 59);
+}
+h1 {
+	font-size: 2rem;
+	margin: 0px;
+}
+h2 {
+	font-size: 1.5rem;
+	margin: 0px;
 }
 </style>
