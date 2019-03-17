@@ -40,7 +40,7 @@ h1 {
 	margin: 0px;
 }
 h2 {
-	font-size: 1.5rem;
+	font-size: 1.2rem;
 	margin: 0px;
 }
 </style>

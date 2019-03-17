@@ -14,7 +14,7 @@
       </div>
     </div>
 
-    <Footer creator="PossibleLlama"></Footer>
+    <Footer></Footer>
   </div>
 </template>
 
