@@ -3,7 +3,6 @@
     <div class="content container">
       <div class="row">
         <div class="col-sm-8">
-          <!-- TODO create footer -->
           <p>Created by PossibleLlama</p>
         </div>
       </div>
