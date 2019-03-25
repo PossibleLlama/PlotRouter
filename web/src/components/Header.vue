@@ -9,6 +9,12 @@
 					<a href="#"><h2>Events</h2></a>
 					
 				</div> <!-- Navbar Header -->
+      	<div class="session">
+					<a href="#" @click="toggleSessionStatus">
+						<h3 v-if="loggedIn">Logout</h3>
+						<h3 v-else>Login</h3>
+					</a>
+      	</div> <!-- Session -->
 
       </div> <!-- container -->
     </nav>
@@ -22,13 +28,21 @@ import { Component, Vue } from 'vue-property-decorator';
   components: {
   },
 })
-export default class Header extends Vue {}
+export default class Header extends Vue {
+  private 'loggedIn': boolean = false;
+
+  private 'toggleSessionStatus'(): void {
+    this.loggedIn = !this.loggedIn;
+    this.$emit('clicked', 'llama', this.loggedIn);
+  }
+}
 </script>
 
 <style>
 a {
 	color: inherit;
 	display: inline-block;
+	margin: 0px;
 	margin-right: 1rem;
 	margin-left: 1rem;
 }
@@ -37,10 +51,11 @@ a:hover {
 }
 h1 {
 	font-size: 2rem;
-	margin: 0px;
 }
-h2 {
+h2, h3 {
 	font-size: 1.2rem;
-	margin: 0px;
+}
+.session {
+	position: relative;
 }
 </style>
