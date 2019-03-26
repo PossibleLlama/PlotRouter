@@ -22,7 +22,7 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import Footer from './components/Footer.vue';
-import Header from './components/Header.vue';
+import Header from './components/navbar/Header.vue';
 
 @Component({
   components: {
