@@ -32,7 +32,8 @@ export default class Session extends Vue {
   }
 
   private 'openOverlay'(): void {
-    this.$refs.childOverlay.setOverlay(true);
+    const overlay: Overlay = this.$refs.childOverlay as Overlay;
+    overlay.setOverlay(true);
   }
 }
 </script>
