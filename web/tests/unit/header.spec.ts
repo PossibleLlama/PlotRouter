@@ -1,4 +1,4 @@
-import Header from '@/components/Header.vue';
+import Header from '@/components/navbar/Header.vue';
 import { mount } from '@vue/test-utils';
 import { expect } from 'chai';
 
