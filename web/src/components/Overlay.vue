@@ -1,5 +1,5 @@
 <template>
-    <div id="overlay" v-if="overlay">
+    <div id="overlay" v-if="overlay" v-click-outside="setOverlay(true)">
         <div id="overlayBox">
             <button id="closeOverlayBtn" class="btn" @click="setOverlay(false)">X</button>
         </div>
@@ -7,6 +7,7 @@
 </template>
 
 <script lang="ts">
+import vClickOutside from 'v-click-outside';
 import { Component, Vue } from 'vue-property-decorator';
 
 @Component({
