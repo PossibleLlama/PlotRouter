@@ -1,13 +1,11 @@
 <template>
-    <div id="overlay" v-if="overlay" v-click-outside="setOverlay(true)">
+    <div id="overlay">
         <div id="overlayBox">
-            <button id="closeOverlayBtn" class="btn" @click="setOverlay(false)">X</button>
         </div>
     </div>
 </template>
 
 <script lang="ts">
-import vClickOutside from 'v-click-outside';
 import { Component, Vue } from 'vue-property-decorator';
 
 @Component({
@@ -15,11 +13,6 @@ import { Component, Vue } from 'vue-property-decorator';
   },
 })
 export default class Overlay extends Vue {
-  private 'overlay': boolean = false;
-
-  public 'setOverlay'(desiredState: boolean): void {
-    this.overlay = desiredState;
-  }
 }
 </script>
 
@@ -43,10 +36,5 @@ export default class Overlay extends Vue {
   height: 80%;
   margin-top: 5%;
   background-color: rgb(230,230,230);
-}
-
-#closeOverlayBtn {
-  position: relative;
-  left: 97%;
 }
 </style>

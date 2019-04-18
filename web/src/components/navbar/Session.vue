@@ -1,11 +1,9 @@
 <template>
     <div class="session">
-        <button class="btn" v-if="!loggedIn" @click="openOverlay">Login</button>
-        <button class="btn" v-else @click="logout">Logout</button>
-        
-        <Overlay ref="childOverlay">
-
-        </Overlay>
+        <button class="btn"
+          v-if="!loggedIn" @click="login">Login</button>
+        <button class="btn"
+          v-else @click="logout">Logout</button>
     </div> <!-- Session -->
 </template>
 
@@ -29,11 +27,6 @@ export default class Session extends Vue {
   private 'logout'(user: string): void {
     this.loggedIn = false;
     this.$emit('clicked', user, false);
-  }
-
-  private 'openOverlay'(): void {
-    const overlay: Overlay = this.$refs.childOverlay as Overlay;
-    overlay.setOverlay(true);
   }
 }
 </script>
