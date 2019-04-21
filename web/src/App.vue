@@ -31,10 +31,25 @@ import Header from './components/navbar/Header.vue';
   },
 })
 export default class App extends Vue {
-  private 'username': string = '';
+  private 'user': {
+      name: string,
+      status: string;
+    } = {
+    name: '',
+    status: 'unknown',
+  };
 
-  private 'userEvent'(username: string, userEvent: string): void {
-    this.username = username;
+  private 'userEvent'(userName: string, userEvent: string): void {
+    this.user.name = userName;
+    if (userEvent === 'login') {
+      this.user.status = 'logged in';
+    } else if (userEvent === 'logout') {
+      this.user.status = 'logged out';
+    } else {
+      // TODO log what event was returned.
+      // TODO consider using enums (as much as JS allows)
+      this.user.status = 'unknown';
+    }
   }
 }
 </script>
