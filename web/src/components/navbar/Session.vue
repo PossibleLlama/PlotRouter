@@ -21,12 +21,12 @@ export default class Session extends Vue {
 
   private 'login'(user: string): void {
     this.loggedIn = true;
-    this.$emit('clicked', user, true);
+    this.$emit('clicked', user, 'login');
   }
 
   private 'logout'(user: string): void {
     this.loggedIn = false;
-    this.$emit('clicked', user, false);
+    this.$emit('clicked', user, 'logout');
   }
 }
 </script>
