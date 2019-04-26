@@ -4,6 +4,10 @@
           <button class="btn"
             @click="$emit('close')">
           x</button>
+
+          <div id="loginForm">
+            <slot></slot>
+          </div>
         </div>
     </div>
 </template>
@@ -39,6 +43,12 @@ export default class Overlay extends Vue {
   height: 80%;
   margin-top: 5%;
   background-color: rgb(230,230,230);
+}
+
+#loginForm {
+  margin-top: 0;
+  margin-left: 5%;
+  margin-right: 5%;
 }
 
 button {
