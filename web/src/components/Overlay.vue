@@ -1,6 +1,9 @@
 <template>
     <div id="overlay">
         <div id="overlayBox">
+          <button class="btn"
+            @click="$emit('close')">
+          x</button>
         </div>
     </div>
 </template>
@@ -36,5 +39,10 @@ export default class Overlay extends Vue {
   height: 80%;
   margin-top: 5%;
   background-color: rgb(230,230,230);
+}
+
+button {
+  position: relative;
+  left: 98%;
 }
 </style>
