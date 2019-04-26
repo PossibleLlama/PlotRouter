@@ -1,9 +1,12 @@
 <template>
     <div class="session">
         <button class="btn"
-          v-if="!loggedIn" @click="login">Login</button>
+          v-if="!loggedIn" @click="overlayVisible = true">Login</button>
         <button class="btn"
           v-else @click="logout">Logout</button>
+        <Overlay v-if="overlayVisible" @close="overlayVisible = false">
+
+        </Overlay>
     </div> <!-- Session -->
 </template>
 
@@ -18,6 +21,7 @@ import Overlay from '../Overlay.vue';
 })
 export default class Session extends Vue {
   private 'loggedIn': boolean = false;
+  private 'overlayVisible': boolean = false;
 
   private 'login'(user: string): void {
     this.loggedIn = true;
