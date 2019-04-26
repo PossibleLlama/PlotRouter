@@ -4,8 +4,13 @@
           v-if="!loggedIn" @click="overlayVisible = true">Login</button>
         <button class="btn"
           v-else @click="logout">Logout</button>
-        <Overlay v-if="overlayVisible" @close="overlayVisible = false">
-
+        <Overlay v-if="overlayVisible"
+          @close="overlayVisible = false">
+          <div>
+            <p>Email</p>
+            <input v-model="user" placeholder="email@domain"> <br>
+            <button id="submitForm" @click="login(user)">Submit</button>
+          </div>
         </Overlay>
     </div> <!-- Session -->
 </template>
@@ -24,8 +29,9 @@ export default class Session extends Vue {
   private 'overlayVisible': boolean = false;
 
   private 'login'(user: string): void {
-    this.loggedIn = true;
     this.$emit('clicked', user, 'login');
+    this.loggedIn = true;
+    this.overlayVisible = false;
   }
 
   private 'logout'(user: string): void {
