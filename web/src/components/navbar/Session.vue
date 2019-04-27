@@ -7,9 +7,9 @@
         <Overlay v-if="overlayVisible"
           @close="overlayVisible = false">
           <div>
-            <p>Email</p>
-            <input v-model="user" placeholder="email@domain"> <br>
-            <button id="submitForm" @click="login(user)">Submit</button>
+            <h3>User</h3>
+            <input v-model="user" placeholder="username">
+            <button class="btn" id="submitForm" @click="login(user)">Submit</button>
           </div>
         </Overlay>
     </div> <!-- Session -->
@@ -42,5 +42,10 @@ export default class Session extends Vue {
 </script>
 
 <style>
+#submitForm {
+  display: block;
+  position: inherit;
+  margin-top: 1rem;
+}
 </style>
 
