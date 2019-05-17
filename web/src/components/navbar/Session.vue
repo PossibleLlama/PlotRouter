@@ -1,11 +1,19 @@
 <template>
     <div class="session">
         <button class="btn sessionState"
-          v-if="!loggedIn" @click="overlayVisible = true">Login</button>
-        <button class="btn sessionState"
-          v-else @click="logout">{{truncate(_username, 10)}}</button>
-        <Overlay v-if="overlayVisible"
-          @close="overlayVisible = false">
+          v-if="!loggedIn" @click="openedComponents.overlay = true">Login</button>
+        <div class="dropdown">
+          <button class="btn sessionState"
+            v-if="loggedIn" @click="openedComponents.dropdown = !openedComponents.dropdown">
+            {{truncate(_username, 10)}}</button>
+          <div id="sessionDropdown"
+            v-if="openedComponents.dropdown">
+            <button class="btn sessionState" @click="logout">Logout</button>
+          </div>
+        </div>
+
+        <Overlay v-if="openedComponents.overlay"
+          @close="openedComponents.overlay = false">
           <div>
             <h3>User</h3>
             <input v-model="user" placeholder="username">
@@ -28,18 +36,26 @@ import Overlay from '../Overlay.vue';
 export default class Session extends Vue {
   private '_username': string = '';
   private 'loggedIn': boolean = false;
-  private 'overlayVisible': boolean = false;
+  private 'openedComponents': {
+    overlay: boolean,
+    dropdown: boolean,
+  } = {
+    overlay: false,
+    dropdown: false,
+  };
 
   private 'login'(user: string): void {
     this.$emit('clicked', user, 'login');
     this._username = user;
     this.loggedIn = true;
-    this.overlayVisible = false;
+    this.openedComponents.overlay = false;
   }
 
   private 'logout'(user: string): void {
-    this.loggedIn = false;
     this.$emit('clicked', user, 'logout');
+    this._username = '';
+    this.loggedIn = false;
+    this.openedComponents.dropdown = false;
   }
 
   private 'truncate'(original: string, maxLength: number): string {
@@ -62,6 +78,15 @@ export default class Session extends Vue {
 
 .sessionState {
   width: 8rem;
+}
+
+.sessionState:hover, .sessionState:focus {
+  background-color: #a4bea859;
+}
+
+#sessionDropdown {
+  position: absolute;
+  z-index: 1;
 }
 </style>
 
