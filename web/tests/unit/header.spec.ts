@@ -6,21 +6,37 @@ describe('Component has elements', () => {
   it('Component has a header', async () => {
     const wrapper = mount(Header);
 
-    expect(wrapper.contains('header')).to.equal(true);
+    expect(wrapper.contains('header')).to.be.true;
   });
 
-  it('Component has navigation bar', async () => {
+  it('Header has navigation bar', async () => {
     const wrapper = mount(Header);
 
-    expect(wrapper.contains('nav')).to.equal(true);
-    expect(wrapper.contains('header > nav')).to.equal(true);
+    expect(wrapper.contains('nav')).to.be.true;
+    expect(wrapper.contains('header > nav')).to.be.true;
   });
 
-  it('Component has link to home', async () => {
+  it('Header has link to home', async () => {
     const wrapper = mount(Header);
 
-    expect(wrapper.contains('a')).to.equal(true);
-    expect(wrapper.contains('a > h1')).to.equal(true);
+    expect(wrapper.contains('a')).to.be.true;
+    expect(wrapper.contains('a > h1')).to.be.true;
     expect(wrapper.find('a > h1').text()).to.equal('PlotRouter');
+  });
+});
+
+describe('Headers events emitted and received', () => {
+  it('Toggle session emits clicked', async () => {
+    const testUsername = 'myTestA';
+    const wrapper = mount(Header);
+
+    wrapper.vm.$emit('clicked', {
+      username: testUsername,
+      loggedIn: true,
+    });
+
+    // No idea why this has nested arrays
+    expect(wrapper.emitted('clicked')[0][0].username).to.equal(testUsername);
+    expect(wrapper.emitted('clicked')[0][0].loggedIn).to.be.true;
   });
 });
