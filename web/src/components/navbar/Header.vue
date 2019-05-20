@@ -5,7 +5,7 @@
 
         <div class="navbar-header">
 
-					<a href="#"><h1>Plot Router</h1></a>
+					<a href="#"><h1>PlotRouter</h1></a>
 					<a href="#"><h2>Events</h2></a>
 					
 				</div> <!-- Navbar Header -->
