@@ -16,3 +16,19 @@ describe('Session has elements', () => {
         expect(wrapper.contains('div .dropdown')).to.equal(true);
     });
 });
+
+describe('Session events emitted and received', () => {
+    it('Toggle overlay emits clicked', async () => {
+        const testUsername = 'myTestA';
+        const wrapper = mount(Session);
+
+        wrapper.vm.$emit('clicked', {
+            username: testUsername,
+            loggedIn: true,
+        });
+
+        // No idea why this has nested arrays
+        expect(wrapper.emitted('clicked')[0][0].username).to.equal(testUsername);
+        expect(wrapper.emitted('clicked')[0][0].loggedIn).to.equal(true);
+    });
+});
