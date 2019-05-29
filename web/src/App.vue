@@ -7,7 +7,7 @@
         <div class="container">
           <div class="row">
             <div class="col-sm-12">
-              <img alt="Vue logo" src="./assets/logo.png">
+              <PlotPointBox id='1' summary='sum' description='description'></PlotPointBox>
             </div>
           </div>
         </div>
@@ -23,11 +23,13 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import Footer from './components/Footer.vue';
 import Header from './components/navbar/Header.vue';
+import PlotPointBox from './components/PlotPointBox.vue';
 
 @Component({
   components: {
     Footer,
     Header,
+    PlotPointBox,
   },
 })
 export default class App extends Vue {

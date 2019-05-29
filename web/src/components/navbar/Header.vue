@@ -43,9 +43,9 @@ a:hover {
 	color: rgb(62, 72, 59);
 }
 h1 {
-	font-size: 2rem;
+	font-size: 2.5rem;
 }
 h2, h3 {
-	font-size: 1.2rem;
+	font-size: 1.8rem;
 }
 </style>
