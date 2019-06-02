@@ -21,7 +21,7 @@ export default class PlotPointBox extends Vue {
 <style>
 .ppBox {
     border: 1px solid #0000002c;
-    background-color: #c4cccc77;
+    background-color: #c4cccc7c;
     width: 45%;
     height: 80px;
 }

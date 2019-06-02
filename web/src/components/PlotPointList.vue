@@ -22,7 +22,8 @@ export default class PlotPointList extends Vue {
 .ppList {
     border: 1px solid #0000002c;
     background-color: #9beb6536;
-    width: 45%;
-    height: 80px;
+    width: 100%;
+    height: 100%;
+    padding: 2.5%;
 }
 </style>
