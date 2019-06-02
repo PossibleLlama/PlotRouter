@@ -7,7 +7,7 @@
         <div class="container">
           <div class="row">
             <div class="col-sm-12">
-              <PlotPointBox id='1' summary='sum' description='description'></PlotPointBox>
+              <PlotPointList v-bind:user='user.name'></PlotPointList>
             </div>
           </div>
         </div>
@@ -23,13 +23,13 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import Footer from './components/Footer.vue';
 import Header from './components/navbar/Header.vue';
-import PlotPointBox from './components/PlotPointBox.vue';
+import PlotPointList from './components/PlotPointList.vue';
 
 @Component({
   components: {
     Footer,
     Header,
-    PlotPointBox,
+    PlotPointList,
   },
 })
 export default class App extends Vue {
