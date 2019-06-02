@@ -15,6 +15,12 @@ import PlotPointBox from './PlotPointBox.vue';
 })
 export default class PlotPointList extends Vue {
     @Prop(String) public readonly user!: string;
+
+    private mounted(): void {
+        // get host name for endpoints
+        // make request to '{{plotpoint}}/user/{{user}}'
+        // v-for each object in data.plotPoints, create a PlotPointBox object
+    }
 }
 </script>
 
