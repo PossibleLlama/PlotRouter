@@ -9,6 +9,7 @@
     "test": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "axios": "^0.19.0",
     "vue": "^2.6.6",
     "vue-class-component": "^6.0.0",
     "vue-property-decorator": "^7.0.0"
