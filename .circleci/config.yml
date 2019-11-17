@@ -1,4 +1,7 @@
-version: 2
+version: 2.1
+
+orbs:
+  newman: postman/newman@0.0.2
 
 jobs:
 
@@ -14,7 +17,10 @@ jobs:
           name: update-npm
           command: 'sudo npm install -g npm'
       - restore_cache:
-          key: ui-npm-{{ checksum "package-lock.json" }}
+          keys:
+            - ui-npm-{{ .Branch }}-{{ checksum "package-lock.json" }}
+            - ui-npm-{{ .Branch }}-
+            - ui-npm-
 
       - run:
           name: ui-npm-audit
@@ -24,7 +30,7 @@ jobs:
           command: npm i
 
       - save_cache:
-          key: ui-npm-{{ checksum "package-lock.json" }}
+          key: ui-npm-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
             - ./node_modules
 
@@ -41,7 +47,10 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: pp-mvn-{{ checksum "pom.xml" }}
+          keys:
+            - pp-mvn-{{ .Branch }}-{{ checksum "pom.xml" }}
+            - pp-mvn-{{ .Branch }}-
+            - pp-mvn-
 
       - run:
           name: pp-mvn-dependencies
@@ -52,7 +61,7 @@ jobs:
       - save_cache:
           paths:
             - ~/.m2
-          key: pp-mvn-{{ checksum "pom.xml" }}
+          key: pp-mvn-{{ .Branch }}-{{ checksum "pom.xml" }}
 
       - run: mvn package
 
@@ -61,15 +70,25 @@ jobs:
       - store_artifacts:
           path: target/plotpoints.jar
 
+#  test_pp:
+#    working_directory: ~/PlotRouter/postman
+
+#    executor: newman/postman-newman-docker
+
+#    steps:
+#      - checkout
+#      - newman/newman-run:
+#          collection: ./plot_router-plot_points-get-all.postman_collection.json
+
 workflows:
   version: 2
   build_and_test:
     jobs:
       - build_ui
       - build_pp
-      - test_pp:
-        requires:
-          - build_pp
+ #     - test_pp:
+ #       requires:
+ #         - build_pp
 
   nightly:
     triggers:
@@ -80,5 +99,5 @@ workflows:
               only:
                 - master
     jobs:
-      - test_pp
+#      - test_pp
       - build_ui
