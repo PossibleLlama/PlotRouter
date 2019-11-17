@@ -1,6 +1,37 @@
 version: 2
 
 jobs:
+
+  build_ui:
+    working_directory: ~/PlotRouter/web
+
+    docker:
+      - image: circleci/node:10.16.3
+
+    steps:
+      - checkout
+      - run:
+          name: update-npm
+          command: 'sudo npm install -g npm'
+      - restore_cache:
+          key: ui-npm-{{ checksum "package-lock.json" }}
+
+      - run:
+          name: ui-npm-audit
+          command: npm audit
+      - run:
+          name: ui-npm-install
+          command: npm i
+
+      - save_cache:
+          key: ui-npm-{{ checksum "package-lock.json" }}
+          paths:
+            - ./node_modules
+
+      - run:
+          name: ui-npm-test
+          command: npm t
+
   build_pp:
     working_directory: ~/PlotRouter/api/plotpoints
 
@@ -13,7 +44,7 @@ jobs:
           key: pp-mvn-{{ checksum "pom.xml" }}
 
       - run:
-          name: pp-mvn
+          name: pp-mvn-dependencies
           command: |
             cd api/plotpoints |
             mvn dependency:go-offline
@@ -21,8 +52,7 @@ jobs:
       - save_cache:
           paths:
             - ~/.m2
-          key:
-            - pp-mvn-{{ checksum "pom.xml" }}
+          key: pp-mvn-{{ checksum "pom.xml" }}
 
       - run: mvn package
 
@@ -35,9 +65,9 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-      - build-ui
+      - build_ui
       - build_pp
-      - test-pp:
+      - test_pp:
         requires:
           - build_pp
 
@@ -50,5 +80,5 @@ workflows:
               only:
                 - master
     jobs:
-      - test-pp
-      - build-ui
+      - test_pp
+      - build_ui
