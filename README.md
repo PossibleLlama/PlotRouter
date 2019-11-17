@@ -3,7 +3,7 @@
 ## Overview
 Master build status
 <br/>
-[![Build Status](https://semaphoreci.com/api/v1/possiblellama/plotrouter/branches/master/shields_badge.svg)](https://semaphoreci.com/possiblellama/plotrouter)
+[![CircleCI](https://circleci.com/gh/PossibleLlama/PlotRouter/tree/master.svg?style=svg)](https://circleci.com/gh/PossibleLlama/PlotRouter/tree/master)
 
 [Trello board](https://trello.com/b/mEtQHsTR/plot-router)
 
