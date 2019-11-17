@@ -6,41 +6,37 @@ orbs:
 jobs:
 
   build_ui:
-    working_directory: ~/PlotRouter/web
-
     docker:
       - image: circleci/node:10.16.3
 
     steps:
       - checkout
       - run:
-          name: update-npm
-          command: 'sudo npm install -g npm'
+          name: setup
+          command: 'sudo npm i -g npm'
       - restore_cache:
           keys:
-            - ui-npm-{{ .Branch }}-{{ checksum "package-lock.json" }}
+            - ui-npm-{{ .Branch }}-{{ checksum "web/package-lock.json" }}
             - ui-npm-{{ .Branch }}-
             - ui-npm-
 
       - run:
           name: ui-npm-audit
-          command: npm audit
+          command: 'cd web && npm audit'
       - run:
           name: ui-npm-install
-          command: npm i
+          command: 'cd web && npm i'
 
       - save_cache:
-          key: ui-npm-{{ .Branch }}-{{ checksum "package-lock.json" }}
+          key: ui-npm-{{ .Branch }}-{{ checksum "web/package-lock.json" }}
           paths:
             - ./node_modules
 
       - run:
           name: ui-npm-test
-          command: npm t
+          command: 'cd web && npm t'
 
   build_pp:
-    working_directory: ~/PlotRouter/api/plotpoints
-
     docker:
       - image: circleci/openjdk:11.0.3-jdk-stretch
 
@@ -48,37 +44,35 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - pp-mvn-{{ .Branch }}-{{ checksum "pom.xml" }}
+            - pp-mvn-{{ .Branch }}-{{ checksum "api/plotpoints/pom.xml" }}
             - pp-mvn-{{ .Branch }}-
             - pp-mvn-
 
       - run:
           name: pp-mvn-dependencies
-          command: |
-            cd api/plotpoints |
-            mvn dependency:go-offline
+          command: 'cd api/plotpoints && mvn dependency:go-offline'
 
       - save_cache:
           paths:
             - ~/.m2
-          key: pp-mvn-{{ .Branch }}-{{ checksum "pom.xml" }}
+          key: pp-mvn-{{ .Branch }}-{{ checksum "api/plotpoints/pom.xml" }}
 
-      - run: mvn package
+      - run:
+          name: pp-mvn-package
+          command: 'cd api/plotpoints && mvn package'
 
       - store_test_results:
-          path: target/surfire-reports
+          path: api/plotpoints/target/surfire-reports
       - store_artifacts:
-          path: target/plotpoints.jar
+          path: api/plotpoints/target/plotpoints.jar
 
 #  test_pp:
-#    working_directory: ~/PlotRouter/postman
-
 #    executor: newman/postman-newman-docker
 
 #    steps:
 #      - checkout
 #      - newman/newman-run:
-#          collection: ./plot_router-plot_points-get-all.postman_collection.json
+#          collection: .postman/plot_router-plot_points-get-all.postman_collection.json
 
 workflows:
   version: 2
