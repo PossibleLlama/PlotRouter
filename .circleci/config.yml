@@ -58,21 +58,48 @@ jobs:
           key: pp-mvn-{{ .Branch }}-{{ checksum "api/plotpoints/pom.xml" }}
 
       - run:
+          name: generate_db_connection_file
+          command: 'cd api/plotpoints && sh setup_db.sh'
+
+      - run:
           name: pp-mvn-package
           command: 'cd api/plotpoints && mvn package'
 
+      - persist_to_workspace:
+          root: api/plotpoints/target
+          paths:
+            - plotpoints.jar
       - store_test_results:
           path: api/plotpoints/target/surfire-reports
+          destination: /results/
       - store_artifacts:
           path: api/plotpoints/target/plotpoints.jar
+          destination: /jars/plotpoints.jar
 
-#  test_pp:
-#    executor: newman/postman-newman-docker
+  run_pp:
+    docker:
+      - image: circleci/openjdk:11.0.3-jdk-stretch
 
-#    steps:
-#      - checkout
-#      - newman/newman-run:
-#          collection: .postman/plot_router-plot_points-get-all.postman_collection.json
+    steps:
+      - checkout
+      - attach_workspace:
+          at: /tmp
+
+      - run:
+          name: pp-run-jar
+          command: 'java -jar /tmp/plotpoints.jar'
+          background: true
+
+  test_pp:
+    executor: newman/postman-newman-docker
+
+    steps:
+      - checkout
+      - run:
+          name: ls
+          command: 'ls -l postman'
+      - newman/newman-run:
+          collection: .postman/plot_router-plot_points-get-all.postman_collection.json
 
 workflows:
   version: 2
@@ -80,9 +107,12 @@ workflows:
     jobs:
       - build_ui
       - build_pp
- #     - test_pp:
- #       requires:
- #         - build_pp
+#      - run_pp:
+#          requires:
+#            - build_pp
+#      - test_pp:
+#          requires:
+#            - run_pp
 
   nightly:
     triggers:
