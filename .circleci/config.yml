@@ -5,7 +5,7 @@ orbs:
 
 jobs:
 
-  build_ui:
+  build_consumer_ui:
     docker:
       - image: circleci/node:10.16.3
 
@@ -16,25 +16,25 @@ jobs:
           command: 'sudo npm i -g npm'
       - restore_cache:
           keys:
-            - ui-npm-{{ .Branch }}-{{ checksum "web/package-lock.json" }}
+            - ui-npm-{{ .Branch }}-{{ checksum "ui/consumer/package-lock.json" }}
             - ui-npm-{{ .Branch }}-
             - ui-npm-
 
       - run:
           name: ui-npm-audit
-          command: 'cd web && npm audit'
+          command: 'cd ui/consumer && npm audit'
       - run:
           name: ui-npm-install
-          command: 'cd web && npm i'
+          command: 'cd ui/consumer && npm i'
 
       - save_cache:
-          key: ui-npm-{{ .Branch }}-{{ checksum "web/package-lock.json" }}
+          key: ui-npm-{{ .Branch }}-{{ checksum "ui/consumer/package-lock.json" }}
           paths:
             - ./node_modules
 
       - run:
           name: ui-npm-test
-          command: 'cd web && npm t'
+          command: 'cd ui/consumer && npm t'
 
   build_pp:
     docker:
@@ -105,7 +105,7 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-      - build_ui
+      - build_consumer_ui
       - build_pp
 #      - run_pp:
 #          requires:
@@ -124,4 +124,4 @@ workflows:
                 - master
     jobs:
 #      - test_pp
-      - build_ui
+      - build_consumer_ui

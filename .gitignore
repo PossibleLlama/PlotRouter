@@ -14,14 +14,19 @@ database.properties
 node_modules/
 .DS_Store
 /dist
+/.pnp
+.pnp.js
 
-# local env files
-.env.local
-.env.*.local
-
-# Javascript files
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .browserslistrc
 
+*/build
+
+# local env files
+.env.local
+.env.*.local
+
+# testing
+/coverage
