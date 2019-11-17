@@ -6,19 +6,22 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <header className="App-header">
+        <nav role="navigation">
+              <a
+                className="App-link"
+                href="#"
+              ><h1>PlotRouter</h1></a>
+              <a
+                className="App-link"
+                href="#"
+              ><h2>Events</h2></a>
+        </nav>
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
       </header>
+
+      <footer>
+        <p>Created by PossibleLlama</p>
+      </footer>
     </div>
   );
 }
