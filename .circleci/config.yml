@@ -1,0 +1,54 @@
+version: 2
+
+jobs:
+  build_pp:
+    working_directory: ~/PlotRouter/api/plotpoints
+
+    docker:
+      - image: circleci/openjdk:11.0.3-jdk-stretch
+
+    steps:
+      - checkout
+      - restore_cache:
+          key: pp-mvn-{{ checksum "pom.xml" }}
+
+      - run:
+          name: pp-mvn
+          command: |
+            cd api/plotpoints |
+            mvn dependency:go-offline
+
+      - save_cache:
+          paths:
+            - ~/.m2
+          key:
+            - pp-mvn-{{ checksum "pom.xml" }}
+
+      - run: mvn package
+
+      - store_test_results:
+          path: target/surfire-reports
+      - store_artifacts:
+          path: target/plotpoints.jar
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build-ui
+      - build_pp
+      - test-pp:
+        requires:
+          - build_pp
+
+  nightly:
+    triggers:
+      - schedule:
+          cron: "0 3 * * *" # Run nightly at 0300 + 15
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - test-pp
+      - build-ui
