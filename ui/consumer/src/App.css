@@ -12,8 +12,15 @@ html {
   color: #66635B;
 }
 
+body {
+  background-color: inherit;
+  /*
+  Not sure why body is overriding html element.
+  */
+}
+
 .App {
-  text-align: center;
+  /* text-align: center; */
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
 }
 
@@ -22,7 +29,6 @@ html {
 }
 
 .App-header {
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
