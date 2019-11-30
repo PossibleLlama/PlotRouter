@@ -8,7 +8,11 @@ Master build status
 
 [<img alt="Trello" src="https://upload.wikimedia.org/wikipedia/en/8/8c/Trello_logo.svg" width=70x/>](https://trello.com/b/mEtQHsTR/plot-router)
 
-Summarise what this is for.
+### Aim
+
+This application aims to assist people in creation of stories, whether that is for a book, game, role playing, or anything else.
+
+It hopes to make it easier to keep track of characters, what events are happening and in which order, and what dependencies these have to help you orchestrate your story.
 
 ## Web App
 
