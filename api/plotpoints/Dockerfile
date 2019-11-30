@@ -1,11 +1,11 @@
-FROM maven:3.6.0-jdk-8-alpine as builder
+FROM maven:3.6.3-jdk-11-slim as builder
 
 COPY . /src
 WORKDIR /src/plotpoints
 
 RUN mvn package
 
-FROM openjdk:8u191-jdk-alpine3.8
+FROM openjdk:11.0.5-jre-stretch
 
 COPY --from=builder /src .
 WORKDIR /plotpoints/target
