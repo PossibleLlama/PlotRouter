@@ -14,6 +14,16 @@ This application aims to assist people in creation of stories, whether that is f
 
 It hopes to make it easier to keep track of characters, what events are happening and in which order, and what dependencies these have to help you orchestrate your story.
 
+### Misc
+
+pr is shorthand for PlotRouter. This shorthand is used in naming conventions to quickly identify which elements belong to this project.
+
+## Docker
+
+The app can be ran via Docker, with docker-compose included.
+
+As such you can run `docker-compose up pr-ui-consumer`, and everything required for the consumers ui will be created.
+
 ## Web App
 
 [React](https://reactjs.org/) has been used to create the web application. There will be a consumer and an administrator ui, served by seperate api's.
