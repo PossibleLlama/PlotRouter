@@ -24,3 +24,11 @@ services:
     ports:
       - "8001:8080"
     command: ["java", "-jar", "plotpoints.jar"]
+
+  pr-test-postman:
+    image: postman/newman
+    depends_on:
+      - pr-service-plotpoints
+    volumes:
+      - ./postman:/etc/newman
+    command: ["run", "plot_router-plot_points-get-all.postman_collection.json"]
