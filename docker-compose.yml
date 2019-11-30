@@ -1,0 +1,26 @@
+version: "3"
+services:
+  db:
+    image: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+
+  pr-ui-consumer:
+    build:
+      context: ui
+      dockerfile: Dockerfile
+    depends_on:
+      - pr-service-plotpoints
+    ports:
+      - "3000:3000"
+  
+  pr-service-plotpoints:
+    build:
+      context: api
+      dockerfile: plotpoints/Dockerfile
+    depends_on:
+      - db
+    ports:
+      - "8001:8080"
+    command: ["java", "-jar", "plotpoints.jar"]
