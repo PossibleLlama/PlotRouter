@@ -20,14 +20,19 @@ body {
 }
 
 .App {
-  /* text-align: center; */
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  background-color: #D7CFB2;
 }
 
 .App-header {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  
+  border-bottom-style: solid;
+  border-bottom-width: 0.1rem;
+  border-bottom-color: #4C5760;
+
   font-size: calc(10px + 2vmin);
 }
 
