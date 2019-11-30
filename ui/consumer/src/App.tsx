@@ -1,7 +1,6 @@
 import React from 'react';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -18,8 +17,10 @@ const App: React.FC = () => {
             </Nav>
             </Navbar.Collapse>
           </Navbar>
-        <img src={logo} className="App-logo" alt="logo" />
       </header>
+
+      <div className="Main">
+      </div>
 
       <footer>
         <p>Created by PossibleLlama</p>

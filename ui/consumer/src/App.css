@@ -24,12 +24,7 @@ body {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-}
-
 .App-header {
-  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -38,6 +33,7 @@ body {
 
 .App-link {
   color: #A59E8C;
+  text-decoration: none;
 }
 
 .App-link:hover {
@@ -46,4 +42,16 @@ body {
 
 .App-link:active {
   color: #474540;
+}
+
+.nav-brand {
+  font-size: 1.3;
+}
+
+.nav-link {
+  font-size: 1.2rem;
+}
+
+.Main {
+  min-height: 80vh;
 }
