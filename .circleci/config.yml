@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   newman: postman/newman@0.0.2
+  codecov: codecov/codecov@1.0.5
 
 jobs:
 
@@ -35,6 +36,9 @@ jobs:
       - run:
           name: ui-npm-test
           command: 'cd ui/consumer && npm t'
+
+      - codecov/upload:
+          file: 'ui/consumer/.codecov.yml'
 
   build_pp:
     docker:
@@ -114,6 +118,16 @@ workflows:
 #          requires:
 #            - run_pp
 
+  # TODO Add security tests ect
+#  staging:
+#    filters:
+#      branches:
+#        only:
+#          - staging
+#    jobs:
+#      - build_consumer_ui
+#      - build_pp
+
   nightly:
     triggers:
       - schedule:
@@ -125,3 +139,4 @@ workflows:
     jobs:
 #      - test_pp
       - build_consumer_ui
+      - build_pp
