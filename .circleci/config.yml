@@ -37,10 +37,6 @@ jobs:
           name: ui-consumer-npm-test
           command: 'cd ui/consumer && npm t'
 
-      # When seperate tool generates report, upload
-      # - codecov/upload:
-      #    file: 'ui/consumer/.codecov.yml'
-
   build_pp:
     docker:
       - image: circleci/openjdk:11.0.3-jdk-stretch
@@ -74,12 +70,18 @@ jobs:
           root: api/plotpoints/target
           paths:
             - plotpoints.jar
-      - store_test_results:
-          path: api/plotpoints/target/surfire-reports
-          destination: /results/
+
       - store_artifacts:
           path: api/plotpoints/target/plotpoints.jar
           destination: /jars/plotpoints.jar
+
+      - run:
+          name: pp-coverage-report
+          command: 'cd api/plotpoints && mvn jacoco:prepare-agent jacoco:report'
+
+      - codecov/upload:
+          flags: pp_unit_test
+          file: 'api/plotpoints/target/site/jacoco/jacoco.xml'
 
   run_pp:
     docker:
