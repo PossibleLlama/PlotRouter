@@ -17,28 +17,29 @@ jobs:
           command: 'sudo npm i -g npm'
       - restore_cache:
           keys:
-            - ui-npm-{{ .Branch }}-{{ checksum "ui/consumer/package-lock.json" }}
-            - ui-npm-{{ .Branch }}-
-            - ui-npm-
+            - ui-consumer-npm-{{ .Branch }}-{{ checksum "ui/consumer/package-lock.json" }}
+            - ui-consumer-npm-{{ .Branch }}-
+            - ui-consumer-npm-
 
       - run:
-          name: ui-npm-audit
+          name: ui-consumer-npm-audit
           command: 'cd ui/consumer && npm audit'
       - run:
-          name: ui-npm-install
+          name: ui-consumer-npm-install
           command: 'cd ui/consumer && npm i'
 
       - save_cache:
-          key: ui-npm-{{ .Branch }}-{{ checksum "ui/consumer/package-lock.json" }}
+          key: ui-consumer-npm-{{ .Branch }}-{{ checksum "ui/consumer/package-lock.json" }}
           paths:
             - ./node_modules
 
       - run:
-          name: ui-npm-test
+          name: ui-consumer-npm-test
           command: 'cd ui/consumer && npm t'
 
-      - codecov/upload:
-          file: 'ui/consumer/.codecov.yml'
+      # When seperate tool generates report, upload
+      # - codecov/upload:
+      #    file: 'ui/consumer/.codecov.yml'
 
   build_pp:
     docker:
