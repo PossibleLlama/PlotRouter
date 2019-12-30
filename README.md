@@ -8,6 +8,8 @@ Master build status
 
 [<img alt="Trello" src="https://upload.wikimedia.org/wikipedia/en/8/8c/Trello_logo.svg" width=70x/>](https://trello.com/b/mEtQHsTR/plot-router)
 
+[![codecov](https://codecov.io/gh/PossibleLlama/PlotRouter/branch/master/graph/badge.svg)](https://codecov.io/gh/PossibleLlama/PlotRouter)
+
 ### Aim
 
 This application aims to assist people in creation of stories, whether that is for a book, game, role playing, or anything else.

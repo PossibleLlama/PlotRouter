@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   newman: postman/newman@0.0.2
+  codecov: codecov/codecov@1.0.5
 
 jobs:
 
@@ -16,25 +17,34 @@ jobs:
           command: 'sudo npm i -g npm'
       - restore_cache:
           keys:
-            - ui-npm-{{ .Branch }}-{{ checksum "ui/consumer/package-lock.json" }}
-            - ui-npm-{{ .Branch }}-
-            - ui-npm-
+            - ui-consumer-npm-{{ .Branch }}-{{ checksum "ui/consumer/package-lock.json" }}
+            - ui-consumer-npm-{{ .Branch }}-
+            - ui-consumer-npm-
 
       - run:
-          name: ui-npm-audit
+          name: ui-consumer-npm-audit
           command: 'cd ui/consumer && npm audit'
       - run:
-          name: ui-npm-install
+          name: ui-consumer-npm-install
           command: 'cd ui/consumer && npm i'
 
       - save_cache:
-          key: ui-npm-{{ .Branch }}-{{ checksum "ui/consumer/package-lock.json" }}
+          key: ui-consumer-npm-{{ .Branch }}-{{ checksum "ui/consumer/package-lock.json" }}
           paths:
             - ./node_modules
 
       - run:
-          name: ui-npm-test
+          name: ui-consumer-npm-test
           command: 'cd ui/consumer && npm t'
+
+      - run:
+          name: ui-consumer-npm-build
+          command: 'cd ui/consumer && npm run build'
+      
+      - persist_to_workspace:
+          root: ui/consumer
+          paths:
+            - build/
 
   build_pp:
     docker:
@@ -69,12 +79,18 @@ jobs:
           root: api/plotpoints/target
           paths:
             - plotpoints.jar
-      - store_test_results:
-          path: api/plotpoints/target/surfire-reports
-          destination: /results/
+
       - store_artifacts:
           path: api/plotpoints/target/plotpoints.jar
           destination: /jars/plotpoints.jar
+
+      - run:
+          name: pp-coverage-report
+          command: 'cd api/plotpoints && mvn jacoco:prepare-agent jacoco:report'
+
+      - codecov/upload:
+          flags: pp_unit_test
+          file: 'api/plotpoints/target/site/jacoco/jacoco.xml'
 
   run_pp:
     docker:
@@ -114,6 +130,16 @@ workflows:
 #          requires:
 #            - run_pp
 
+  # TODO Add security tests ect
+#  staging:
+#    filters:
+#      branches:
+#        only:
+#          - staging
+#    jobs:
+#      - build_consumer_ui
+#      - build_pp
+
   nightly:
     triggers:
       - schedule:
@@ -125,3 +151,4 @@ workflows:
     jobs:
 #      - test_pp
       - build_consumer_ui
+      - build_pp
