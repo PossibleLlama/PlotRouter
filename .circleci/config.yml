@@ -37,6 +37,15 @@ jobs:
           name: ui-consumer-npm-test
           command: 'cd ui/consumer && npm t'
 
+      - run:
+          name: ui-consumer-npm-build
+          command: 'cd ui/consumer && npm run build'
+      
+      - persist_to_workspace:
+          root: ui/consumer
+          paths:
+            - build/
+
   build_pp:
     docker:
       - image: circleci/openjdk:11.0.3-jdk-stretch
