@@ -2,13 +2,12 @@
 
 ## Overview
 
-Master build status
-
-[![CircleCI](https://circleci.com/gh/PossibleLlama/PlotRouter/tree/master.svg?style=svg)](https://circleci.com/gh/PossibleLlama/PlotRouter/tree/master)
+| Repo        | Master Status | Code Coverage |
+| ----------- | ------------- | ------------- |
+| [UI](https://github.com/PossibleLlama/PlotRouter-UI) | [![CircleCI](https://circleci.com/gh/PossibleLlama/PlotRouter-UI.svg?style=svg&circle-token=e65c69d2f59335eaf44e72d6487c478c518ab5b1)](https://circleci.com/gh/PossibleLlama/PlotRouter-UI)       | PENDING       |
+| [Plot Points](https://github.com/PossibleLlama/PlotRouter-PP) | [![CircleCI](https://circleci.com/gh/PossibleLlama/PlotRouter-PP/tree/master.svg?style=svg&circle-token=07292fe316715bf5c78e72534a2d05a59c0e7880)](https://circleci.com/gh/PossibleLlama/PlotRouter-PP/tree/master) | [![codecov](https://codecov.io/gh/PossibleLlama/PlotRouter-PP/branch/master/graph/badge.svg?token=ZrFA9xeliL)](https://codecov.io/gh/PossibleLlama/PlotRouter-PP) |
 
 [<img alt="Trello" src="https://upload.wikimedia.org/wikipedia/en/8/8c/Trello_logo.svg" width=70x/>](https://trello.com/b/mEtQHsTR/plot-router)
-
-[![codecov](https://codecov.io/gh/PossibleLlama/PlotRouter/branch/master/graph/badge.svg)](https://codecov.io/gh/PossibleLlama/PlotRouter)
 
 ### Aim
 
