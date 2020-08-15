@@ -6,8 +6,11 @@
 
 | Repo                             | Master Status                               | Code Coverage                                        |
 | -------------------------------- | ------------------------------------------- | ---------------------------------------------------- |
+| [Docs][Docs-Github]              |                                             |                                                      |
 | [UI][UI-Github]                  | [![CircleCI][UI-CCI-Badge]][UI-CCI]         | [![codecov][UI-CodeCov-Badge]][UI-CodeCov]           |
 | [Plot Points][PP-Github]         | [![CircleCI][PP-CCI-Badge]][PP-CCI]         | [![codecov][PP-CodeCov-Badge]][PP-CodeCov]           |
+
+[Docs-Github]: https://github.com/PossibleLlama/PlotRouter-Docs
 
 [UI-Github]: https://github.com/PossibleLlama/PlotRouter-UI
 [UI-CCI-Badge]: https://circleci.com/gh/PossibleLlama/PlotRouter-UI.svg?style=svg&circle-token=e65c69d2f59335eaf44e72d6487c478c518ab5b1
