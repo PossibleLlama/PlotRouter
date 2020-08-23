@@ -4,7 +4,7 @@
 
 ## Overview
 
-| Repo                             | Master Status                               | Code Coverage                                        |
+| Repo                             | Status                                      | Code Coverage                                        |
 | -------------------------------- | ------------------------------------------- | ---------------------------------------------------- |
 | [Docs][Docs-Github]              |                                             |                                                      |
 | [UI][UI-Github]                  | [![CircleCI][UI-CCI-Badge]][UI-CCI]         | [![codecov][UI-CodeCov-Badge]][UI-CodeCov]           |
@@ -14,14 +14,14 @@
 
 [UI-Github]: https://github.com/PossibleLlama/PlotRouter-UI
 [UI-CCI-Badge]: https://circleci.com/gh/PossibleLlama/PlotRouter-UI.svg?style=svg&circle-token=e65c69d2f59335eaf44e72d6487c478c518ab5b1
-[UI-CCI]: https://circleci.com/gh/PossibleLlama/PlotRouter-UI/tree/master
-[UI-CodeCov-Badge]: https://codecov.io/gh/PossibleLlama/PlotRouter-UI/branch/master/graph/badge.svg?token=nnGEN1vSks
+[UI-CCI]: https://circleci.com/gh/PossibleLlama/PlotRouter-UI/tree/main
+[UI-CodeCov-Badge]: https://codecov.io/gh/PossibleLlama/PlotRouter-UI/branch/main/graph/badge.svg?token=nnGEN1vSks
 [UI-CodeCov]: https://codecov.io/gh/PossibleLlama/PlotRouter-UI
 
 [PP-Github]: https://github.com/PossibleLlama/PlotRouter-PP
-[PP-CCI-Badge]: https://circleci.com/gh/PossibleLlama/PlotRouter-PP/tree/master.svg?style=svg&circle-token=07292fe316715bf5c78e72534a2d05a59c0e7880
-[PP-CCI]: https://circleci.com/gh/PossibleLlama/PlotRouter-PP/tree/master
-[PP-CodeCov-Badge]: https://codecov.io/gh/PossibleLlama/PlotRouter-PP/branch/master/graph/badge.svg?token=ZrFA9xeliL
+[PP-CCI-Badge]: https://circleci.com/gh/PossibleLlama/PlotRouter-PP.svg?style=svg&circle-token=07292fe316715bf5c78e72534a2d05a59c0e7880
+[PP-CCI]: https://circleci.com/gh/PossibleLlama/PlotRouter-PP/tree/main
+[PP-CodeCov-Badge]: https://codecov.io/gh/PossibleLlama/PlotRouter-PP/branch/main/graph/badge.svg?token=ZrFA9xeliL
 [PP-CodeCov]: https://codecov.io/gh/PossibleLlama/PlotRouter-PP
 
 [Trello]: https://trello.com/b/mEtQHsTR/plot-router
